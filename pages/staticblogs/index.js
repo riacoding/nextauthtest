@@ -33,7 +33,7 @@ export default function StaticBlogs({ blogs }) {
         {blogs &&
           blogs.map((blog) => {
             return (
-              <Link href={`/staticblogs/${blog.id}`} key={blog.id}>
+              <Link key={blog.id} href={`/staticblogs/${blog.id}`}>
                 <a>
                   <p>{blog.name}</p>
                 </a>

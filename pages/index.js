@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { API } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
 import Head from "next/head";
 import { listBlogs } from "../src/graphql/queries";
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Home.module.css";
+import config from "../src/aws-exports";
+
+Amplify.configure({ ...config });
 
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     async function getBlogs() {
-      const result = await API.graphql({ query: listBlogs });
+      const result = await API.graphql({ query: listBlogs, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
       console.log("blogs", result);
       setBlogs(result.data.listBlogs.items);
     }
@@ -27,7 +31,7 @@ export default function Home() {
         <h1 className={styles.title}>Welcome to AmplifyNextTester</h1>
         <h4>Public route</h4>
         {blogs.map((blog) => {
-          return <p>{blog.name}</p>;
+          return <p key={blog.id}>{blog.name}</p>;
         })}
       </main>
     </div>

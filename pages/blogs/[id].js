@@ -17,7 +17,7 @@ export default function BlogDetail() {
       setBlog(result.data.getBlog);
     }
     getBlogData();
-  }, []);
+  }, [router.query.id]);
 
   return (
     <div className={styles.container}>

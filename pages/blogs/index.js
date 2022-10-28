@@ -31,7 +31,7 @@ export default function Blogs() {
         {blogs &&
           blogs.map((blog) => {
             return (
-              <Link href={`/blogs/${blog.id}`} key={blog.id}>
+              <Link key={blog.id} href={`/blogs/${blog.id}`}>
                 <a>
                   <p>{blog.name}</p>
                 </a>
