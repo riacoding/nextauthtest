@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "nextauthtest",
+    "serviceName": "AppSync",
+    "defaultAuthType": {
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authnextauthtest5e5f7abb5e5f7abb"
+    },
+    "conflictResolution": {},
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-10-27T14:58:44.306Z",
+        "keyDescription": "nextauthtest"
+      },
+      {
+        "mode": "AWS_IAM"
+      }
+    ]
+  }
+}

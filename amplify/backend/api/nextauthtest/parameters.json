@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "nextauthtest",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authnextauthtest5e5f7abb5e5f7abb",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2022-10-26T18:18:09.140Z"
+}

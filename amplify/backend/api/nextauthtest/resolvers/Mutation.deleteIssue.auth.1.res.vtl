@@ -1,0 +1,19 @@
+## [Start] Authorization Steps. **
+$util.qr($ctx.stash.put("hasAuth", true))
+#set( $isAuthorized = false )
+#if( $util.authType() == "API Key Authorization" )
+$util.unauthorized()
+#end
+#if( $util.authType() == "IAM Authorization" )
+  #if( ($ctx.identity.userArn == $ctx.stash.authRole) || ($ctx.identity.cognitoIdentityPoolId == "us-west-1:90c6d8f8-0c5a-4c4d-8918-f079a97c0760" && $ctx.identity.cognitoIdentityAuthType == "authenticated") )
+    #set( $isAuthorized = true )
+  #end
+#end
+#if( $util.authType() == "User Pool Authorization" )
+
+#end
+#if( !$isAuthorized )
+$util.unauthorized()
+#end
+$util.toJson({"version":"2018-05-29","payload":{}})
+## [End] Authorization Steps. **
