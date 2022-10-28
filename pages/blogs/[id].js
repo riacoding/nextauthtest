@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Amplify, API } from "aws-amplify";
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import { getBlog } from "../../src/graphql/queries";
 import styles from "../../styles/Home.module.css";
 
@@ -12,7 +13,11 @@ export default function BlogDetail() {
 
   useEffect(() => {
     async function getBlogData() {
-      const result = await API.graphql({ query: getBlog, variables: { id: router.query.id } });
+      const result = await API.graphql({
+        query: getBlog,
+        variables: { id: router.query.id },
+        authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+      });
       console.log("blog", result);
       setBlog(result.data.getBlog);
     }

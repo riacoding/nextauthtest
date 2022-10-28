@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Amplify, API } from "aws-amplify";
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import { listBlogs } from "../../src/graphql/queries";
 import styles from "../../styles/Home.module.css";
 
@@ -11,7 +12,7 @@ export default function Blogs() {
 
   useEffect(() => {
     async function getBlogs() {
-      const result = await API.graphql({ query: listBlogs });
+      const result = await API.graphql({ query: listBlogs, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
       console.log("blogs", result);
       setBlogs(result.data.listBlogs.items);
     }

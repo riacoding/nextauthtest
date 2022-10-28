@@ -6,8 +6,6 @@ import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Home.module.css";
 import config from "../src/aws-exports";
 
-Amplify.configure({ ...config });
-
 export default function Home() {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {

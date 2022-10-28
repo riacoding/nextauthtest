@@ -48,6 +48,7 @@ export async function getStaticProps({ params }) {
       props: {
         blog: data.getBlog,
       },
+      revalidate: 10,
     };
   } catch (err) {
     console.log(err);
