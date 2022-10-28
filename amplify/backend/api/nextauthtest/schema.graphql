@@ -25,6 +25,7 @@ type Blog
   @auth(
     rules: [
       { allow: public, operations: [read], provider: iam }
+      { allow: private, operations: [read], provider: iam }
       { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
     ]
   ) {
