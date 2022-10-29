@@ -30,6 +30,11 @@ export default function Header() {
           Static Blogs
         </Link>
       </li>
+      <li>
+        <Link className={styles.menuItem} href="/about">
+          About
+        </Link>
+      </li>
     </ul>
   );
 }
