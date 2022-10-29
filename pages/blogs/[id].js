@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { Amplify, API } from "aws-amplify";
+import { Amplify, API, Auth } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import { getBlog } from "../../src/graphql/queries";
 import styles from "../../styles/Home.module.css";
@@ -13,6 +13,12 @@ export default function BlogDetail() {
 
   useEffect(() => {
     async function getBlogData() {
+      try {
+        console.log("Current user", await Auth.currentAuthenticatedUser());
+        console.log("Current user Credentials", await Auth.currentCredentials());
+      } catch (err) {
+        console.log("user not authenticated");
+      }
       const result = await API.graphql({
         query: getBlog,
         variables: { id: router.query.id },

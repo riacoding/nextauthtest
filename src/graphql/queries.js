@@ -20,11 +20,7 @@ export const getComment = /* GraphQL */ `
   }
 `;
 export const listComments = /* GraphQL */ `
-  query ListComments(
-    $filter: ModelCommentFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListComments($filter: ModelCommentFilterInput, $limit: Int, $nextToken: String) {
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -53,11 +49,7 @@ export const getIssue = /* GraphQL */ `
   }
 `;
 export const listIssues = /* GraphQL */ `
-  query ListIssues(
-    $filter: ModelIssueFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListIssues($filter: ModelIssueFilterInput, $limit: Int, $nextToken: String) {
     listIssues(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -111,20 +103,13 @@ export const getBlog = /* GraphQL */ `
     getBlog(id: $id) {
       id
       name
-      posts {
-        nextToken
-      }
       createdAt
       updatedAt
     }
   }
 `;
 export const listBlogs = /* GraphQL */ `
-  query ListBlogs(
-    $filter: ModelBlogFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListBlogs($filter: ModelBlogFilterInput, $limit: Int, $nextToken: String) {
     listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -157,11 +142,7 @@ export const getPost = /* GraphQL */ `
   }
 `;
 export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
+  query ListPosts($filter: ModelPostFilterInput, $limit: Int, $nextToken: String) {
     listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id

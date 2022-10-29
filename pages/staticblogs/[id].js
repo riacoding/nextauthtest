@@ -57,7 +57,7 @@ export async function getStaticProps({ params }) {
 
 export default function Blog({ blog }) {
   if (!blog) return;
-  console.log("blog in RFC", blog);
+
   return (
     <div className={styles.container}>
       <Head>

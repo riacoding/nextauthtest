@@ -19,7 +19,6 @@ function ProtectedSSR({ authenticated, username }) {
 }
 
 export async function getServerSideProps({ req }) {
-  console.log("req", req);
   const SSR = withSSRContext({ req });
   try {
     const cognitoUser = await SSR.Auth.currentAuthenticatedUser();
