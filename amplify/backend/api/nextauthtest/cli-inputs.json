@@ -7,17 +7,17 @@
       "mode": "AMAZON_COGNITO_USER_POOLS",
       "cognitoUserPoolId": "authnextauthtest5e5f7abb5e5f7abb"
     },
+    "conflictResolution": {},
     "additionalAuthTypes": [
       {
         "mode": "API_KEY",
         "expirationTime": 365,
-        "apiKeyExpirationDate": "2024-01-07T16:28:06.050Z",
+        "apiKeyExpirationDate": "2023-10-27T14:58:44.306Z",
         "keyDescription": "nextauthtest"
       },
       {
         "mode": "AWS_IAM"
       }
-    ],
-    "conflictResolution": {}
+    ]
   }
 }
