@@ -1,0 +1,248 @@
+.form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.metadataForm {
+    width: 360px;
+}
+
+.formButton {
+    min-width: "200px";
+
+}
+
+.h1 {
+    font-weight: 100;
+}
+
+
+
+.p {
+    color: #bf1650;
+}
+
+.p::before {
+    display: inline;
+    content: "⚠ ";
+}
+
+.span {
+    color: #bf1650;
+}
+
+.input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid rgb(209, 207, 207);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    background-color: white !important;
+}
+
+.input:-webkit-autofill {
+    border: 1px solid #00A9A7;
+    -webkit-box-shadow: 0 0 0 1000px #f3f3f3 inset !important;
+
+
+}
+
+
+
+.select {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid white;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.label {
+    line-height: 2;
+    text-align: left;
+    display: block;
+
+    color: inherit;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.required {
+    line-height: 2;
+    text-align: left;
+    color: #c43265;
+    font-size: 18px;
+    font-weight: 200;
+
+}
+
+.required::after {
+    content: "*"
+}
+
+.error {
+    padding-right: 5px;
+    color: #c43265;
+}
+
+
+
+
+
+.App {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+
+.hr {
+    margin-top: 30px;
+}
+
+
+
+.textarea {
+    width: 100%;
+    height: 300px;
+}
+
+.cancelButton {
+    background-color: #c43265;
+    margin-right: 5px;
+    border: none;
+    color: white;
+}
+
+
+.cancelButton:hover {
+    background-color: #dc4f80;
+    color: white;
+}
+
+
+.displayname {
+    width: 200px
+}
+
+.metadata {
+    display: 600px;
+}
+
+.pronouns {
+    width: 200px;
+}
+
+.city {
+    width: 200px
+}
+
+.state {
+    width: 70px;
+}
+
+.areacode {
+    width: 80px;
+}
+
+.number {
+    width: 120px
+}
+
+.email {
+    width: 300px
+}
+
+.website {
+    width: 300px;
+}
+
+.instagram {
+    width: 300px
+}
+
+.birthyear {
+    width: 100px
+}
+
+.birthcity {
+    width: 300px
+}
+
+.birthstate {
+    width: 70px
+}
+
+.title {
+    width: 300px;
+}
+
+.medium {
+    width: 500px;
+}
+
+.width {
+    width: 120px;
+}
+
+.height {
+    width: 120px;
+}
+
+.control {
+    cursor: pointer;
+}
+
+.submitfull {
+    width: 100%
+}
+
+.imageContainer {
+    position: relative;
+}
+
+.amplifyRequired label::after {
+    content: "*";
+    color: #c43265;
+}
+
+.buttonGroup {
+    display: grid;
+    justify-content: end;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+
+.messageContainer {
+    height: 42px;
+    justify-self: start;
+}
+
+.message {
+    opacity: 1;
+    padding: 10px;
+    background-color: lightgreen;
+    transition: all 400ms ease-in;
+
+}
+
+.hidden {
+    opacity: 0;
+    transition: all 400ms ease-out;
+}
+
+@media(min-width: 768px) {
+    .metadataForm {
+        width: 760px;
+    }
+
+    .buttonGroup {
+        grid-template-columns: 3fr 1fr;
+
+    }
+}
