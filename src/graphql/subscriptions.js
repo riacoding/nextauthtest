@@ -1,6 +1,138 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateApplicant = /* GraphQL */ `
+  subscription OnCreateApplicant(
+    $filter: ModelSubscriptionApplicantFilterInput
+  ) {
+    onCreateApplicant(filter: $filter) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateApplicant = /* GraphQL */ `
+  subscription OnUpdateApplicant(
+    $filter: ModelSubscriptionApplicantFilterInput
+  ) {
+    onUpdateApplicant(filter: $filter) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteApplicant = /* GraphQL */ `
+  subscription OnDeleteApplicant(
+    $filter: ModelSubscriptionApplicantFilterInput
+  ) {
+    onDeleteApplicant(filter: $filter) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateBlog = /* GraphQL */ `
+  subscription OnCreateBlog($filter: ModelSubscriptionBlogFilterInput) {
+    onCreateBlog(filter: $filter) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateBlog = /* GraphQL */ `
+  subscription OnUpdateBlog($filter: ModelSubscriptionBlogFilterInput) {
+    onUpdateBlog(filter: $filter) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteBlog = /* GraphQL */ `
+  subscription OnDeleteBlog($filter: ModelSubscriptionBlogFilterInput) {
+    onDeleteBlog(filter: $filter) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreatePost = /* GraphQL */ `
+  subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
+    onCreatePost(filter: $filter) {
+      id
+      title
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePost = /* GraphQL */ `
+  subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
+    onUpdatePost(filter: $filter) {
+      id
+      title
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePost = /* GraphQL */ `
+  subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
+    onDeletePost(filter: $filter) {
+      id
+      title
+      comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
     onCreateComment(filter: $filter) {
@@ -8,9 +140,11 @@ export const onCreateComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
@@ -26,9 +160,11 @@ export const onUpdateComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
@@ -44,158 +180,16 @@ export const onDeleteComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
       updatedAt
       postCommentsId
-    }
-  }
-`;
-export const onCreateIssue = /* GraphQL */ `
-  subscription OnCreateIssue($filter: ModelSubscriptionIssueFilterInput) {
-    onCreateIssue(filter: $filter) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateIssue = /* GraphQL */ `
-  subscription OnUpdateIssue($filter: ModelSubscriptionIssueFilterInput) {
-    onUpdateIssue(filter: $filter) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteIssue = /* GraphQL */ `
-  subscription OnDeleteIssue($filter: ModelSubscriptionIssueFilterInput) {
-    onDeleteIssue(filter: $filter) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateBlog = /* GraphQL */ `
-  subscription OnCreateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onCreateBlog(filter: $filter) {
-      id
-      name
-      posts {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateBlog = /* GraphQL */ `
-  subscription OnUpdateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onUpdateBlog(filter: $filter) {
-      id
-      name
-      posts {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteBlog = /* GraphQL */ `
-  subscription OnDeleteBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onDeleteBlog(filter: $filter) {
-      id
-      name
-      posts {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
-    onCreatePost(filter: $filter) {
-      id
-      title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-    }
-  }
-`;
-export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
-    onUpdatePost(filter: $filter) {
-      id
-      title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-    }
-  }
-`;
-export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
-    onDeletePost(filter: $filter) {
-      id
-      title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      comments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      blogPostsId
     }
   }
 `;

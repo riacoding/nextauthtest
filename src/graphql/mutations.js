@@ -1,6 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createApplicant = /* GraphQL */ `
+  mutation CreateApplicant(
+    $input: CreateApplicantInput!
+    $condition: ModelApplicantConditionInput
+  ) {
+    createApplicant(input: $input, condition: $condition) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateApplicant = /* GraphQL */ `
+  mutation UpdateApplicant(
+    $input: UpdateApplicantInput!
+    $condition: ModelApplicantConditionInput
+  ) {
+    updateApplicant(input: $input, condition: $condition) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteApplicant = /* GraphQL */ `
+  mutation DeleteApplicant(
+    $input: DeleteApplicantInput!
+    $condition: ModelApplicantConditionInput
+  ) {
+    deleteApplicant(input: $input, condition: $condition) {
+      id
+      firstname
+      lastname
+      product
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createBlog = /* GraphQL */ `
   mutation CreateBlog(
     $input: CreateBlogInput!
@@ -9,9 +54,6 @@ export const createBlog = /* GraphQL */ `
     createBlog(input: $input, condition: $condition) {
       id
       name
-      posts {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -25,9 +67,6 @@ export const updateBlog = /* GraphQL */ `
     updateBlog(input: $input, condition: $condition) {
       id
       name
-      posts {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -41,9 +80,6 @@ export const deleteBlog = /* GraphQL */ `
     deleteBlog(input: $input, condition: $condition) {
       id
       name
-      posts {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -57,18 +93,18 @@ export const createPost = /* GraphQL */ `
     createPost(input: $input, condition: $condition) {
       id
       title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
       comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
         nextToken
       }
       createdAt
       updatedAt
-      blogPostsId
     }
   }
 `;
@@ -80,18 +116,18 @@ export const updatePost = /* GraphQL */ `
     updatePost(input: $input, condition: $condition) {
       id
       title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
       comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
         nextToken
       }
       createdAt
       updatedAt
-      blogPostsId
     }
   }
 `;
@@ -103,18 +139,18 @@ export const deletePost = /* GraphQL */ `
     deletePost(input: $input, condition: $condition) {
       id
       title
-      blog {
-        id
-        name
-        createdAt
-        updatedAt
-      }
       comments {
+        items {
+          id
+          content
+          createdAt
+          updatedAt
+          postCommentsId
+        }
         nextToken
       }
       createdAt
       updatedAt
-      blogPostsId
     }
   }
 `;
@@ -128,9 +164,11 @@ export const createComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
@@ -149,9 +187,11 @@ export const updateComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
@@ -170,68 +210,16 @@ export const deleteComment = /* GraphQL */ `
       post {
         id
         title
+        comments {
+          nextToken
+        }
         createdAt
         updatedAt
-        blogPostsId
       }
       content
       createdAt
       updatedAt
       postCommentsId
-    }
-  }
-`;
-export const createIssue = /* GraphQL */ `
-  mutation CreateIssue(
-    $input: CreateIssueInput!
-    $condition: ModelIssueConditionInput
-  ) {
-    createIssue(input: $input, condition: $condition) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateIssue = /* GraphQL */ `
-  mutation UpdateIssue(
-    $input: UpdateIssueInput!
-    $condition: ModelIssueConditionInput
-  ) {
-    updateIssue(input: $input, condition: $condition) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteIssue = /* GraphQL */ `
-  mutation DeleteIssue(
-    $input: DeleteIssueInput!
-    $condition: ModelIssueConditionInput
-  ) {
-    deleteIssue(input: $input, condition: $condition) {
-      id
-      type
-      issue_id
-      number
-      date
-      name
-      release_date
-      createdAt
-      updatedAt
     }
   }
 `;

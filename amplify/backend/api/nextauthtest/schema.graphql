@@ -1,55 +1,80 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+# input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
 
-type Issue
+type Applicant
   @model
   @auth(
     rules: [
-      { allow: public, operations: [read], provider: iam }
-      { allow: private, operations: [read, create, update, delete], provider: iam }
-    ]
-  ) {
-  id: ID!
-  type: String!
-    @default(value: "Issue")
-    @index(name: "issuesByNumber", queryField: "issuesByNumber", sortKeyFields: ["number"])
-  issue_id: Int!
-  number: Int!
-  date: String
-  name: String
-  release_date: AWSDateTime
-}
-
-type Blog
-  @model
-  @auth(
-    rules: [
-      { allow: public, operations: [read], provider: iam }
-      { allow: private, operations: [read], provider: iam }
+      { allow: public, operations: [read] }
+      { allow: private, provider: iam, operations: [create, read] }
       { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
     ]
   ) {
   id: ID!
+  firstname: String!
+  lastname: String!
+  email: AWSEmail! @index(name: "userByEmail", queryField: "userByEmail")
+  sub: String
+  product: String @default(value: "NAP")
+}
+
+type Blog @model @auth(rules: [{ allow: groups, groups: ["users"], operations: [read, create, update, delete] }]) {
+  id: ID!
   name: String!
-  posts: [Post] @hasMany
 }
 
 type Post
   @model
   @auth(
     rules: [
-      { allow: public, operations: [read], provider: iam }
+      { allow: public, operations: [read] }
       { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
     ]
   ) {
   id: ID!
   title: String!
-  blog: Blog @belongsTo
+
   comments: [Comment] @hasMany
 }
 
-type Comment @model {
+type Comment
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read] }
+      { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
+    ]
+  ) {
   id: ID!
   post: Post @belongsTo
   content: String!
 }
+
+type Message @model
+ @auth(
+    rules: [
+      { allow: private, provider: iam, operations: [create, read,update,delete] }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  sender: ID! @primaryKey(sortKeyFields: ["isSentMessage","createdAt"])
+  recipients: [String!]
+  recipientId: @index(name: "messagesByRecipient", queryField: "messagesByRecipient")
+  isSentMessage: Boolean
+  isRead: Boolean @default(value: "false")
+  moderation: AWSJSON
+  subject: String
+  body: String
+  isStarred: Boolean
+  labels: [String]
+  folder: String
+  replies: AWSJSON
+  attatchments: [String]
+}
+
+
+
+type Mutation(
+  sendMessage(input: createMessageInput!): ID @function(name: "customResolvers-${env}")
+)

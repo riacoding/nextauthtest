@@ -10,6 +10,7 @@ export default function Home() {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     async function getBlogs() {
+      console.log("cred source", await Amplify.Credentials.get());
       const result = await API.graphql({ query: listBlogs, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
       console.log("blogs", result);
       setBlogs(result.data.listBlogs.items);
