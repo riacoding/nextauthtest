@@ -210,17 +210,13 @@
     color: #c43265;
 }
 
-.buttonGroup {
-    display: grid;
-    justify-content: end;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
+
 
 
 .messageContainer {
-    height: 42px;
-    justify-self: start;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .message {

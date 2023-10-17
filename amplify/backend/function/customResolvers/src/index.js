@@ -5,6 +5,8 @@
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
+const { sendMessage } = require("./sendMessage");
+
 const resolvers = {
   Mutation: {
     setCurrentCompetition: (event) => {

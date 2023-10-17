@@ -7,5 +7,11 @@
       ]
     }
   },
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "adminEmail",
+      "environmentVariableName": "ADMIN_EMAIL"
+    }
+  ]
 }

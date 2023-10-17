@@ -5,11 +5,12 @@ const { SignatureV4 } = require("@aws-sdk/signature-v4");
 const { HttpRequest } = require("@aws-sdk/protocol-http");
 const { Sha256 } = crypto;
 
-const GRAPHQL_ENDPOINT = process.env.API_NAPAINTINGS_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_NAPAINTINGS_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT = process.env.API_NEXTAUTHTEST_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_NEXTAUTHTEST_GRAPHQLAPIKEYOUTPUT;
 const AWS_REGION = process.env.AWS_REGION || "us-west-1";
 
 exports.signedRequest = async (query, variables) => {
+  console.log("request", query, variables, GRAPHQL_ENDPOINT);
   const endpoint = new URL(GRAPHQL_ENDPOINT);
   const prov = await defaultProvider();
 
@@ -62,7 +63,7 @@ exports.signedRequest = async (query, variables) => {
     };
   }
 
-  return body.data;
+  return body;
 };
 
 exports.APIKeyRequest = async (query, variables) => {

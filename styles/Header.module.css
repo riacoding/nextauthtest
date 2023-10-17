@@ -1,13 +1,19 @@
-.menu{
+.menu {
   width: 50%;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   align-items: space-between;
   flex-wrap: wrap;
   list-style: none;
 }
 
-.menuItem{
+.menuItem {
   font-size: 18px;
-  font-weight: 900;;
+  font-weight: 900;
+  ;
+}
+
+.logout {
+  cursor: pointer;
+  font-weight: bold;
 }

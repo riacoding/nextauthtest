@@ -11,16 +11,22 @@ export const getComment = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
       }
       content
       createdAt
       updatedAt
       postCommentsId
+      __typename
     }
   }
 `;
 export const listComments = /* GraphQL */ `
-  query ListComments($filter: ModelCommentFilterInput, $limit: Int, $nextToken: String) {
+  query ListComments(
+    $filter: ModelCommentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -28,8 +34,79 @@ export const listComments = /* GraphQL */ `
         createdAt
         updatedAt
         postCommentsId
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      firstname
+      lastname
+      email
+      sub
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersByEmail = /* GraphQL */ `
+  query UsersByEmail(
+    $email: AWSEmail!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByEmail(
+      email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;
@@ -45,11 +122,16 @@ export const getIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
 export const listIssues = /* GraphQL */ `
-  query ListIssues($filter: ModelIssueFilterInput, $limit: Int, $nextToken: String) {
+  query ListIssues(
+    $filter: ModelIssueFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listIssues(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -61,8 +143,10 @@ export const listIssues = /* GraphQL */ `
         release_date
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -93,8 +177,10 @@ export const issuesByNumber = /* GraphQL */ `
         release_date
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -103,21 +189,32 @@ export const getBlog = /* GraphQL */ `
     getBlog(id: $id) {
       id
       name
+      posts {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
 export const listBlogs = /* GraphQL */ `
-  query ListBlogs($filter: ModelBlogFilterInput, $limit: Int, $nextToken: String) {
+  query ListBlogs(
+    $filter: ModelBlogFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
         createdAt
         updatedAt
+        __typename
       }
       nextToken
+      __typename
     }
   }
 `;
@@ -131,18 +228,25 @@ export const getPost = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        __typename
       }
       comments {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
       blogPostsId
+      __typename
     }
   }
 `;
 export const listPosts = /* GraphQL */ `
-  query ListPosts($filter: ModelPostFilterInput, $limit: Int, $nextToken: String) {
+  query ListPosts(
+    $filter: ModelPostFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
     listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
@@ -150,8 +254,170 @@ export const listPosts = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+export const getMessage = /* GraphQL */ `
+  query GetMessage($id: ID!) {
+    getMessage(id: $id) {
+      id
+      senderEmail
+      firstname
+      lastname
+      senderId
+      recipients
+      recipientId
+      threadId
+      type
+      isRead
+      moderation
+      subject
+      body
+      isStarred
+      labels
+      folder
+      replies
+      cc
+      attatchments
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listMessages = /* GraphQL */ `
+  query ListMessages(
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        senderEmail
+        firstname
+        lastname
+        senderId
+        recipients
+        recipientId
+        threadId
+        type
+        isRead
+        moderation
+        subject
+        body
+        isStarred
+        labels
+        folder
+        replies
+        cc
+        attatchments
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const messagesBySender = /* GraphQL */ `
+  query MessagesBySender(
+    $senderId: ID!
+    $createdAtType: ModelMessageMessagesBySenderCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesBySender(
+      senderId: $senderId
+      createdAtType: $createdAtType
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        senderEmail
+        firstname
+        lastname
+        senderId
+        recipients
+        recipientId
+        threadId
+        type
+        isRead
+        moderation
+        subject
+        body
+        isStarred
+        labels
+        folder
+        replies
+        cc
+        attatchments
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const messagesByRecipient = /* GraphQL */ `
+  query MessagesByRecipient(
+    $recipientId: ID!
+    $createdAtType: ModelMessageMessagesByRecipientCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByRecipient(
+      recipientId: $recipientId
+      createdAtType: $createdAtType
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        senderEmail
+        firstname
+        lastname
+        senderId
+        recipients
+        recipientId
+        threadId
+        type
+        isRead
+        moderation
+        subject
+        body
+        isStarred
+        labels
+        folder
+        replies
+        cc
+        attatchments
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
     }
   }
 `;

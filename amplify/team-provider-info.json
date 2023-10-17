@@ -18,6 +18,13 @@
       },
       "api": {
         "nextauthtest": {}
+      },
+      "function": {
+        "customResolvers": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/customResolvers-384d67794a5375574168-build.zip",
+          "adminEmail": "lbutton@riacoding.com"
+        }
       }
     }
   }

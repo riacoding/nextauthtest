@@ -11,11 +11,13 @@ export const onCreateComment = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
       }
       content
       createdAt
       updatedAt
       postCommentsId
+      __typename
     }
   }
 `;
@@ -29,11 +31,13 @@ export const onUpdateComment = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
       }
       content
       createdAt
       updatedAt
       postCommentsId
+      __typename
     }
   }
 `;
@@ -47,11 +51,67 @@ export const onDeleteComment = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
       }
       content
       createdAt
       updatedAt
       postCommentsId
+      __typename
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onCreateUser(filter: $filter, owner: $owner) {
+      id
+      firstname
+      lastname
+      email
+      sub
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onUpdateUser(filter: $filter, owner: $owner) {
+      id
+      firstname
+      lastname
+      email
+      sub
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser(
+    $filter: ModelSubscriptionUserFilterInput
+    $owner: String
+  ) {
+    onDeleteUser(filter: $filter, owner: $owner) {
+      id
+      firstname
+      lastname
+      email
+      sub
+      createdAt
+      updatedAt
+      owner
+      __typename
     }
   }
 `;
@@ -67,6 +127,7 @@ export const onCreateIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -82,6 +143,7 @@ export const onUpdateIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -97,6 +159,7 @@ export const onDeleteIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -107,9 +170,11 @@ export const onCreateBlog = /* GraphQL */ `
       name
       posts {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -120,9 +185,11 @@ export const onUpdateBlog = /* GraphQL */ `
       name
       posts {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -133,9 +200,11 @@ export const onDeleteBlog = /* GraphQL */ `
       name
       posts {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
+      __typename
     }
   }
 `;
@@ -149,13 +218,16 @@ export const onCreatePost = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        __typename
       }
       comments {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
       blogPostsId
+      __typename
     }
   }
 `;
@@ -169,13 +241,16 @@ export const onUpdatePost = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        __typename
       }
       comments {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
       blogPostsId
+      __typename
     }
   }
 `;
@@ -189,13 +264,112 @@ export const onDeletePost = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        __typename
       }
       comments {
         nextToken
+        __typename
       }
       createdAt
       updatedAt
       blogPostsId
+      __typename
+    }
+  }
+`;
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage(
+    $filter: ModelSubscriptionMessageFilterInput
+    $owner: String
+  ) {
+    onCreateMessage(filter: $filter, owner: $owner) {
+      id
+      senderEmail
+      firstname
+      lastname
+      senderId
+      recipients
+      recipientId
+      threadId
+      type
+      isRead
+      moderation
+      subject
+      body
+      isStarred
+      labels
+      folder
+      replies
+      cc
+      attatchments
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage(
+    $filter: ModelSubscriptionMessageFilterInput
+    $owner: String
+  ) {
+    onUpdateMessage(filter: $filter, owner: $owner) {
+      id
+      senderEmail
+      firstname
+      lastname
+      senderId
+      recipients
+      recipientId
+      threadId
+      type
+      isRead
+      moderation
+      subject
+      body
+      isStarred
+      labels
+      folder
+      replies
+      cc
+      attatchments
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage(
+    $filter: ModelSubscriptionMessageFilterInput
+    $owner: String
+  ) {
+    onDeleteMessage(filter: $filter, owner: $owner) {
+      id
+      senderEmail
+      firstname
+      lastname
+      senderId
+      recipients
+      recipientId
+      threadId
+      type
+      isRead
+      moderation
+      subject
+      body
+      isStarred
+      labels
+      folder
+      replies
+      cc
+      attatchments
+      createdAt
+      updatedAt
+      owner
+      __typename
     }
   }
 `;

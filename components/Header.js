@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Auth } from "aws-amplify";
 import styles from "../styles/Header.module.css";
 
 export default function Header() {
@@ -12,7 +13,7 @@ export default function Header() {
       </li>
       <li>
         <Link className={styles.menuItem} href="/protected">
-          Protected
+          Messages
         </Link>
       </li>
       <li>
@@ -34,6 +35,11 @@ export default function Header() {
         <Link className={styles.menuItem} href="/about">
           About
         </Link>
+      </li>
+      <li>
+        <span className={styles.logout} onClick={() => Auth.signOut()}>
+          Logout
+        </span>
       </li>
     </ul>
   );

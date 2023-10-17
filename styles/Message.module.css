@@ -1,0 +1,19 @@
+.bold {
+    font-weight: 900;
+}
+
+.messageRow:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+
+.bodyList {
+    padding-top: 2px;
+    overflow: hidden;
+    height: 24px;
+    line-height: normal;
+}
+
+.back:hover {
+    cursor: pointer;
+}
