@@ -64,7 +64,7 @@ export default function MessageApp({ messages }) {
     <Flex direction={"column"} width={"100%"}>
       <Flex onClick={() => setShowDetail(false)} className={styles.back} paddingLeft={"100px"} alignItems={"center"}>
         <FaChevronLeft />
-        <Text>Back</Text>
+        <Text>Back to List</Text>
       </Flex>
       <Flex width={"100%"} justifyContent={"flex-start"}>
         <Folders folderNames={folders} />
