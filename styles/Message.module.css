@@ -17,3 +17,13 @@
 .back:hover {
     cursor: pointer;
 }
+
+.messageDetail {
+    overflow: scroll;
+}
+
+
+.messageDetailBody {
+    max-width: 80%;
+    overflow: scroll;
+}

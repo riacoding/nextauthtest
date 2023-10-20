@@ -36,9 +36,9 @@ const createMessageRequest = /* GraphQL */ `
 exports.sendMessage = async (event) => {
   const { senderId, senderEmail, recipients, subject, body } = event.arguments.input;
   const loggedInUser = event.identity.claims.sub;
-
+  const response = [];
   if (recipients.length <= 0) {
-    return { errors: [{ message: "No recipients" }], messages: [] };
+    return { status: "failed", message: "No recipients" };
   }
 
   //TODO: iterate through recipients and create message
@@ -61,10 +61,8 @@ exports.sendMessage = async (event) => {
             sentMessage.createdAt
           );
 
-          console.log(recipientsMessages);
-          const response = { errors: [], messages: [...recipientsMessages] };
-          console.log("response", response);
-          return response;
+          console.log("response", { status: "success", recipient });
+          response.push({ status: "success", recipient });
         } else {
           const sentMessage = await createSenderMessage(loggedInUser, ADMIN_EMAIL, recipients, subject, body);
           const groupMessages = await createGroupMessage(
@@ -75,7 +73,8 @@ exports.sendMessage = async (event) => {
             body,
             sentMessage.createdAt
           );
-          return { errors: [], messages: [...recipientsMessages] };
+          console.log("response", { status: "success", recipient });
+          response.push({ status: "success", recipient });
         }
       } else {
         const sentMessage = await createSenderMessage(loggedInUser, senderEmail, recipients, subject, body);
@@ -87,11 +86,15 @@ exports.sendMessage = async (event) => {
           body,
           sentMessage.createdAt
         );
-        return { errors: [], messages: [...recipientsMessages] };
+        console.log("response", { status: "success", recipient });
+        response.push({ status: "success", recipient });
       }
+      return response;
     } catch (err) {
       console.log(err);
-      return { errors: [{ message: "API send message error" }], messages: [] };
+      response.push({ status: "failed", recipient, message: "API send message failure" });
+    } finally {
+      return response;
     }
   }
 };

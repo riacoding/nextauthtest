@@ -1,18 +1,37 @@
 import react, { useEffect, useState } from "react";
 import Head from "next/head";
 import { withAuthenticator } from "@aws-amplify/ui-react";
-import { Amplify, API, Auth } from "aws-amplify";
+import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Home.module.css";
 import "@aws-amplify/ui-react/styles.css";
 import MessageForm from "../components/MessageForm";
 import MessageApp from "../components/MessageApp";
 
+const onCreateMessageSubscription = /* GraphQL */ `
+  subscription onCreateMessage($owner: String!) {
+    onCreateMessage(owner: $owner) {
+      id
+      senderEmail
+      firstname
+      lastname
+      createdAt
+      type
+      recipients
+      subject
+      body
+      isRead
+      owner
+    }
+  }
+`;
+
 const getInboxMessages = /* GraphQL */ `
   query getReceivedMessages($recipient: ID!) {
-    messagesByRecipient(recipientId: $recipient, sortDirection: DESC) {
+    messagesByRecipient(recipientId: $recipient, filter: { type: { eq: received } }, sortDirection: DESC) {
       items {
         id
+        senderEmail
         firstname
         lastname
         createdAt
@@ -51,6 +70,29 @@ function Protected({ signOut, user }) {
     getUnreadMessages();
   }, [user]);
 
+  useEffect(() => {
+    const subscription = API.graphql(
+      graphqlOperation(onCreateMessageSubscription, { owner: user.attributes.sub })
+    ).subscribe({
+      next: (messageData) => {
+        // When a new message is created, it will trigger this callback
+        const message = messageData.value.data.onCreateMessage;
+        console.log("subscription Message", message);
+        if (message.type === "received") {
+          setInbox([message, ...inbox]);
+        }
+      },
+      error: (error) => {
+        console.error("Subscription Error:", error);
+      },
+    });
+
+    return () => {
+      // Unsubscribe when the component unmounts
+      subscription.unsubscribe();
+    };
+  }, [inbox, user.attributes.sub]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -62,7 +104,6 @@ function Protected({ signOut, user }) {
       <main className={styles.main}>
         <h1 className={styles.title}>Messaging</h1>
 
-        <MessageForm user={user} />
         <MessageApp messages={inbox} />
       </main>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Amplify, API, Auth } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
@@ -8,18 +8,16 @@ import styles from "../styles/form.module.css";
 const sendMessageMutation = /* GraphQL */ `
   mutation sendMessage($input: SendMessageInput!) {
     sendMessage(input: $input) {
-      messages {
-        id
-      }
-      errors {
-        message
-      }
+      status
+      recipient
+      error
     }
   }
 `;
 
-export default function MessageForm({ user }) {
+export default function MessageForm({ user, isReplying, setIsReplying, isComposing, message }) {
   const [toastVisible, setToastVisible] = useState(false);
+  const bodyRef = useRef();
   const [toastMessage, setToastMessage] = useState(""); // Toast message to display
   const {
     register,
@@ -35,6 +33,21 @@ export default function MessageForm({ user }) {
       body: "",
     },
   });
+
+  useEffect(() => {
+    if (message && !isComposing) {
+      setValue("subject", `RE:${message.subject}`);
+      setValue("recipients", message.senderEmail);
+      setValue("body", `\n ### \n ${message.body}`);
+    }
+  }, [message, setValue]);
+
+  useEffect(() => {
+    if (isReplying) {
+      document.querySelector("#body").setSelectionRange(0, 0);
+      document.querySelector("#body").focus();
+    }
+  }, [isReplying]);
 
   // Function to show the toast message
   const showToast = () => {
@@ -62,11 +75,11 @@ export default function MessageForm({ user }) {
   }
 
   const onSubmit = async (data) => {
+    const user = await Auth.currentAuthenticatedUser();
     const request = { ...data };
-    request.senderId = user.attributes.sub;
     request.senderEmail = user.attributes.email;
     request.recipients = [];
-    request.recipients.push(data.recipients);
+    request.recipients = [...data.recipients.split(",")];
 
     console.log(request);
     await sendMessage(request);
@@ -92,7 +105,13 @@ export default function MessageForm({ user }) {
               {...register("subject", { required: true })}
             />
             {errors.subject && <span className={styles.error}>This field is required</span>}
-            <TextAreaField id="body" type="text" label="message" {...register("body", { required: true })} />
+            <TextAreaField
+              ref={bodyRef}
+              id="body"
+              type="text"
+              label="message"
+              {...register("body", { required: true })}
+            />
             {errors.body && <span className={styles.error}>This field is required</span>}
           </Card>
         </Flex>
@@ -107,11 +126,20 @@ export default function MessageForm({ user }) {
               {` ${toastMessage}`}
             </Text>
           }
-          <View>
+          <Flex>
+            <Button
+              onClick={() => (setIsReplying ? setIsReplying(false) : "")}
+              className={styles.formButton}
+              variation="error"
+              type="reset"
+              value="cancel"
+            >
+              Cancel
+            </Button>
             <Button className={styles.formButton} variation="primary" type="submit" value="save">
               Send Message
             </Button>
-          </View>
+          </Flex>
         </View>
       </form>
     </Flex>

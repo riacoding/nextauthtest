@@ -22,7 +22,7 @@
       "function": {
         "customResolvers": {
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
-          "s3Key": "amplify-builds/customResolvers-384d67794a5375574168-build.zip",
+          "s3Key": "amplify-builds/customResolvers-5047754c68516239616f-build.zip",
           "adminEmail": "lbutton@riacoding.com"
         }
       }

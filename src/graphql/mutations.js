@@ -4,35 +4,9 @@
 export const sendMessage = /* GraphQL */ `
   mutation SendMessage($input: SendMessageInput!) {
     sendMessage(input: $input) {
-      errors {
-        message
-        __typename
-      }
-      messages {
-        id
-        senderEmail
-        firstname
-        lastname
-        senderId
-        recipients
-        recipientId
-        threadId
-        type
-        isRead
-        moderation
-        subject
-        body
-        isStarred
-        labels
-        folder
-        replies
-        cc
-        attatchments
-        createdAt
-        updatedAt
-        owner
-        __typename
-      }
+      recipient
+      status
+      error
       __typename
     }
   }

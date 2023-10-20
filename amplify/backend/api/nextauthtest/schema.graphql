@@ -124,10 +124,11 @@ type Error {
 }
 
 type SendMessageResponse {
-  errors: [Error]
-  messages: [Message]
+  recipient: String
+  status: String
+  error: String
 }
 
 type Mutation {
-  sendMessage(input: SendMessageInput!): SendMessageResponse @function(name: "customResolvers-${env}")
+  sendMessage(input: SendMessageInput!): [SendMessageResponse] @function(name: "customResolvers-${env}")
 }
