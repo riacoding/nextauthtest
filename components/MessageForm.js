@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Amplify, API, Auth } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
-import { Flex, Card, Text, TextField, TextAreaField, View, Button } from "@aws-amplify/ui-react";
+import { Flex, Card, Text, TextField, TextAreaField, View, Button, Loader } from "@aws-amplify/ui-react";
 import styles from "../styles/form.module.css";
 
 const sendMessageMutation = /* GraphQL */ `
@@ -19,6 +19,7 @@ export default function MessageForm({ user, isReplying, setIsReplying, isComposi
   const [toastVisible, setToastVisible] = useState(false);
   const bodyRef = useRef();
   const [toastMessage, setToastMessage] = useState(""); // Toast message to display
+  const [isSubmitting, setIsSubmitting] = useState(false); // Flag to indicate if the form is submitting
   const {
     register,
     handleSubmit,
@@ -40,7 +41,7 @@ export default function MessageForm({ user, isReplying, setIsReplying, isComposi
       setValue("recipients", message.senderEmail);
       setValue("body", `\n ### \n ${message.body}`);
     }
-  }, [message, setValue]);
+  }, [message, setValue, isComposing]);
 
   useEffect(() => {
     if (isReplying) {
@@ -75,16 +76,22 @@ export default function MessageForm({ user, isReplying, setIsReplying, isComposi
   }
 
   const onSubmit = async (data) => {
-    const user = await Auth.currentAuthenticatedUser();
-    const request = { ...data };
-    request.senderEmail = user.attributes.email;
-    request.recipients = [];
-    request.recipients = [...data.recipients.split(",")];
+    try {
+      setIsSubmitting(true);
+      const user = await Auth.currentAuthenticatedUser();
+      const request = { ...data };
+      request.senderEmail = user.attributes.email;
+      request.recipients = [];
+      request.recipients = [...data.recipients.split(",")];
 
-    console.log(request);
-    await sendMessage(request);
-    setToastMessage("Message sent successfully");
-    showToast();
+      console.log(request);
+      await sendMessage(request);
+      setIsSubmitting(false);
+      setToastMessage("Message sent successfully");
+      showToast();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -137,7 +144,7 @@ export default function MessageForm({ user, isReplying, setIsReplying, isComposi
               Cancel
             </Button>
             <Button className={styles.formButton} variation="primary" type="submit" value="save">
-              Send Message
+              {isSubmitting ? <Loader /> : "Send"}
             </Button>
           </Flex>
         </View>
