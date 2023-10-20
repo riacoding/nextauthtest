@@ -48,9 +48,15 @@ function Message({ message, setDetail }) {
       border={"1px solid lightgrey"}
     >
       <Text
-        className={!message.isRead && message.type === "received" ? styles.bold : ""}
-        width={"200px"}
-      >{`${message?.firstname} ${message?.lastname}`}</Text>
+        className={
+          !message.isRead && message.type === "received" ? `${styles.bold} ${styles.toFrom}` : ` ${styles.toFrom}`
+        }
+        width={"250px"}
+      >
+        {message.type === "received"
+          ? `${message?.firstname} ${message?.lastname}`
+          : `To: ${message.recipients[0].slice(0, 25)}`}
+      </Text>
       <Text className={!message.isRead && message.type === "received" ? styles.bold : ""} width={"200px"}>
         {message?.subject.slice(0, 20)}
       </Text>

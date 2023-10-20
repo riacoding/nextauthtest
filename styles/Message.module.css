@@ -2,6 +2,11 @@
     font-weight: 900;
 }
 
+.toFrom {
+    overflow: hidden;
+    height: 30px;
+}
+
 .messageRow:hover {
     background-color: whitesmoke;
     cursor: pointer;
