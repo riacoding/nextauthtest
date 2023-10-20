@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Card, Text, TextField, TextAreaField, View, Button } from "@aws-amplify/ui-react";
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Message.module.css";
 import { FaChevronLeft } from "react-icons/fa";
 import MessageDetail from "./MessageDetail";
 
 const folders = ["inbox", "sent", "drafts", "trash"];
 
-function Folders({ folderNames }) {
-  return (
-    <Flex direction="column" gap="1rem">
-      {folderNames.map((folder) => (
-        <Button name={folder} onClick={(e) => console.log(e.target.name)} key={folder}>
-          {folder}
-        </Button>
-      ))}
-    </Flex>
-  );
-}
+const getSentMessages = /* GraphQL */ `
+  query getSenderMessages($senderId: ID!) {
+    messagesBySender(senderId: $senderId, filter: { type: { eq: sent } }, sortDirection: DESC) {
+      items {
+        id
+        senderEmail
+        firstname
+        lastname
+        createdAt
+        type
+        recipients
+        subject
+        body
+        isRead
+      }
+    }
+  }
+`;
+
+const updateReadStatus = /* GraphQL */ `
+  mutation updateMessage($input: UpdateMessageInput!) {
+    updateMessage(input: $input) {
+      id
+      isRead
+    }
+  }
+`;
 
 function Message({ message, setDetail }) {
   return (
     <Flex
-      onClick={() => setDetail({ show: true, id: message.id })}
+      onClick={() => setDetail({ show: true, id: message.id, isRead: true })}
       className={styles.messageRow}
       padding={"5px"}
       alignItems={"center"}
@@ -31,10 +48,10 @@ function Message({ message, setDetail }) {
       border={"1px solid lightgrey"}
     >
       <Text
-        className={!message.isRead ? styles.bold : ""}
-        width={"100px"}
+        className={!message.isRead && message.type === "received" ? styles.bold : ""}
+        width={"200px"}
       >{`${message?.firstname} ${message?.lastname}`}</Text>
-      <Text className={!message.isRead ? styles.bold : ""} width={"200px"}>
+      <Text className={!message.isRead && message.type === "received" ? styles.bold : ""} width={"200px"}>
         {message?.subject.slice(0, 20)}
       </Text>
       <Text className={styles.bodyList} width={"500px"}>
@@ -76,12 +93,79 @@ export default function MessageApp({ messages }) {
   const [detail, setDetail] = useState({ show: false, id: null });
   const [isComposing, setIsComposing] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [folder, setFolder] = useState("inbox");
+  const [displayMessages, setDisplayMessages] = useState([]);
+
+  useEffect(() => {
+    setDisplayMessages(messages);
+  }, [messages]);
+
   useEffect(() => {
     if (detail.id) {
-      const message = messages.find((message) => message.id === detail.id);
+      const message = displayMessages.find((message) => message.id === detail.id);
+      message.isRead = true;
       setSelectedMessage(message);
     }
-  }, [detail, messages]);
+
+    if (detail.isRead) {
+      try {
+        const result = API.graphql({
+          query: updateReadStatus,
+          variables: {
+            input: { id: detail.id, isRead: true },
+          },
+          authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+        });
+      } catch (err) {
+        console.log(JSON.stringify(err));
+      }
+    }
+  }, [detail, displayMessages]);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      const user = await Auth.currentAuthenticatedUser();
+      try {
+        if (folder === "inbox") {
+          setDisplayMessages(messages);
+        }
+        if (folder === "sent") {
+          const { data, errors } = await API.graphql({
+            query: getSentMessages,
+            variables: {
+              senderId: user.attributes.sub,
+            },
+            authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+          });
+          if (!errors) {
+            setDisplayMessages(data["messagesBySender"].items);
+          } else {
+            throw new Error("Set Messages Error");
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessages();
+  }, [folder, messages]);
+
+  function onFolderClick(e) {
+    setDetail({ show: false, id: null });
+    setFolder(e.target.name);
+  }
+
+  function Folders({ folderNames }) {
+    return (
+      <Flex direction="column" gap="1rem">
+        {folderNames.map((folder) => (
+          <Button name={folder} onClick={(e) => onFolderClick(e)} key={folder}>
+            {folder}
+          </Button>
+        ))}
+      </Flex>
+    );
+  }
 
   return (
     <Flex direction={"column"} width={"100%"}>
@@ -101,7 +185,7 @@ export default function MessageApp({ messages }) {
         <Folders folderNames={folders} />
         {detail.show && !isComposing && <MessageDetail isComposing={isComposing} message={selectedMessage} />}
 
-        {!detail.show && !isComposing && <MessageList setDetail={setDetail} messages={messages} />}
+        {!detail.show && !isComposing && <MessageList setDetail={setDetail} messages={displayMessages} />}
 
         {!detail.show && isComposing && <MessageDetail isComposing={isComposing} message={selectedMessage} />}
       </Flex>

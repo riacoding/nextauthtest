@@ -22,6 +22,8 @@ const createMessageRequest = /* GraphQL */ `
       id
       senderId
       senderEmail
+      firstname
+      lastname
       recipients
       recipientId
       createdAt
@@ -101,12 +103,12 @@ exports.sendMessage = async (event) => {
 
 async function sendToRecipients(senderId, senderEmail, otherRecipients, subject, body, sendDate) {
   console.log(`send To Recipients sender:${senderEmail} recipients:${otherRecipients} `);
+  //look up sender first and last names
+  const { data, errors } = await signedRequest(lookUpUser, { email: senderEmail });
+  const sender = data.usersByEmail.items[0];
   try {
     const sentMessages = await Promise.all(
       otherRecipients.map(async (messageRecipient) => {
-        //look up sender first and last names
-        const { data, errors } = await signedRequest(lookUpUser, { email: senderEmail });
-        const sender = data.usersByEmail.items[0];
         const recipientMessage = await createRecipientMessage(
           sender.firstname,
           sender.lastname,
@@ -129,7 +131,10 @@ async function sendToRecipients(senderId, senderEmail, otherRecipients, subject,
 }
 
 async function createSenderMessage(senderId, senderEmail, otherRecipients, subject, message, type = "sent") {
-  //lookup recipient
+  //lookup sender first and last names
+  const { data, errors } = await signedRequest(lookUpUser, { email: senderEmail });
+  const sender = data.usersByEmail.items[0];
+
   let response;
   try {
     const sendDate = new Date().toISOString();
@@ -138,6 +143,8 @@ async function createSenderMessage(senderId, senderEmail, otherRecipients, subje
         input: {
           createdAt: sendDate,
           senderEmail: senderEmail,
+          firstname: sender.firstname,
+          lastname: sender.lastname,
           senderId: senderId,
           recipientId: senderId,
           recipients: [...otherRecipients],

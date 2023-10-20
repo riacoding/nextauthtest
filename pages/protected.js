@@ -49,7 +49,7 @@ function Protected({ signOut, user }) {
   const [inbox, setInbox] = useState([]);
 
   useEffect(() => {
-    const getUnreadMessages = async () => {
+    const getMessages = async () => {
       try {
         const { data, errors } = await API.graphql({
           query: getInboxMessages,
@@ -67,7 +67,7 @@ function Protected({ signOut, user }) {
         console.log(err);
       }
     };
-    getUnreadMessages();
+    getMessages();
   }, [user]);
 
   useEffect(() => {
