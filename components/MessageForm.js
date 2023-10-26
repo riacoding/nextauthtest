@@ -15,7 +15,7 @@ const sendMessageMutation = /* GraphQL */ `
   }
 `;
 
-export default function MessageForm({ user, isReplying, setIsReplying, isComposing, message }) {
+export default function MessageForm({ user, isReplying, setIsReplying, setIsComposing, isComposing, message }) {
   const [toastVisible, setToastVisible] = useState(false);
   const bodyRef = useRef();
   const [toastMessage, setToastMessage] = useState(""); // Toast message to display
@@ -89,6 +89,7 @@ export default function MessageForm({ user, isReplying, setIsReplying, isComposi
       setIsSubmitting(false);
       setToastMessage("Message sent successfully");
       showToast();
+      setIsComposing(false);
     } catch (err) {
       console.log(err);
     }

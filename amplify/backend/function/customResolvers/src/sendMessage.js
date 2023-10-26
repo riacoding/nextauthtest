@@ -30,20 +30,24 @@ const createMessageRequest = /* GraphQL */ `
       type
       subject
       body
+      isModeration
+      moderationType
+      moderation
       owner
     }
   }
 `;
 
 exports.sendMessage = async (event) => {
-  const { senderId, senderEmail, recipients, subject, body } = event.arguments.input;
+  const { senderId, senderEmail, recipients, subject, body, isModeration, moderationType, moderation } =
+    event.arguments.input;
   const loggedInUser = event.identity.claims.sub;
   const response = [];
   if (recipients.length <= 0) {
-    return { status: "failed", message: "No recipients" };
+    return { status: "failed", error: "No recipients" };
   }
 
-  //TODO: iterate through recipients and create message
+  // iterate through recipients and create message
   for (recipient of recipients) {
     console.log("recipient", recipient);
     //if recipient startwith @, then it is a group or Alias
@@ -53,41 +57,96 @@ exports.sendMessage = async (event) => {
           //replace recipients @Admin with ADMIN_EMAIL
           recipients.splice(recipients.indexOf("@Admin"), 1, ADMIN_EMAIL);
           console.log("recipients", recipients);
-          const sentMessage = await createSenderMessage(loggedInUser, ADMIN_EMAIL, recipients, subject, body);
-          const recipientsMessages = await sendToRecipients(
-            loggedInUser,
+          const senderRequest = {
+            senderId: loggedInUser,
             senderEmail,
             recipients,
             subject,
             body,
-            sentMessage.createdAt
-          );
+            type: "sent",
+            isModeration,
+            moderationType,
+            moderation,
+          };
+          const sentMessage = await createSenderMessage(senderRequest);
+          const recipientRequest = {
+            senderId: loggedInUser,
+            senderEmail,
+            senderFirstname: sentMessage.firstname,
+            senderLastname: sentMessage.lastname,
+            recipient: ADMIN_EMAIL,
+            recipients,
+            subject,
+            body,
+            type: "received",
+            isModeration,
+            moderationType,
+            moderation,
+            createdAt: sentMessage.createdAt,
+          };
+
+          const recipientsMessages = await createRecipientMessage(recipientRequest);
 
           console.log("response", { status: "success", recipient });
           response.push({ status: "success", recipient });
         } else {
-          const sentMessage = await createSenderMessage(loggedInUser, ADMIN_EMAIL, recipients, subject, body);
+          const senderRequest = {
+            senderId: loggedInUser,
+            senderEmail,
+            recipients,
+            subject,
+            body,
+            type: "sent",
+            isModeration,
+            moderationType,
+            moderation,
+          };
+          const sentMessage = await createSenderMessage(senderRequest);
           const groupMessages = await createGroupMessage(
             loggedInUser,
             ADMIN_EMAIL,
             recipients,
             subject,
             body,
-            sentMessage.createdAt
+            sentMessage.createdAt,
+            isModeration,
+            moderationType,
+            moderation
           );
           console.log("response", { status: "success", recipient });
           response.push({ status: "success", recipient });
         }
       } else {
-        const sentMessage = await createSenderMessage(loggedInUser, senderEmail, recipients, subject, body);
-        const recipientsMessages = await sendToRecipients(
-          loggedInUser,
+        const senderRequest = {
+          senderId: loggedInUser,
           senderEmail,
           recipients,
           subject,
           body,
-          sentMessage.createdAt
-        );
+          type: "sent",
+          isModeration,
+          moderationType,
+          moderation,
+        };
+        const sentMessage = await createSenderMessage(senderRequest);
+
+        const recipientRequest = {
+          senderId: loggedInUser,
+          senderEmail,
+          senderFirstname: sentMessage.firstname,
+          senderLastname: sentMessage.lastname,
+          recipient,
+          recipients,
+          subject,
+          body,
+          type: "received",
+          isModeration,
+          moderationType,
+          moderation,
+          createdAt: sentMessage.createdAt,
+        };
+
+        const recipientsMessages = await createRecipientMessage(recipientRequest);
         console.log("response", { status: "success", recipient });
         response.push({ status: "success", recipient });
       }
@@ -101,8 +160,19 @@ exports.sendMessage = async (event) => {
   }
 };
 
-async function sendToRecipients(senderId, senderEmail, otherRecipients, subject, body, sendDate) {
-  console.log(`send To Recipients sender:${senderEmail} recipients:${otherRecipients} `);
+async function sendToRecipients(options) {
+  const {
+    senderId,
+    senderEmail,
+    recipients,
+    subject,
+    body,
+    type = "received",
+    isModeration,
+    moderationType,
+    moderation,
+  } = options;
+  console.log(`send To Recipients sender:${senderEmail} recipients:${recipients} `);
   //look up sender first and last names
   const { data, errors } = await signedRequest(lookUpUser, { email: senderEmail });
   const sender = data.usersByEmail.items[0];
@@ -118,7 +188,10 @@ async function sendToRecipients(senderId, senderEmail, otherRecipients, subject,
           otherRecipients,
           subject,
           body,
-          sendDate
+          sendDate,
+          isModeration,
+          moderationType,
+          moderation
         );
         return recipientMessage;
       })
@@ -130,7 +203,19 @@ async function sendToRecipients(senderId, senderEmail, otherRecipients, subject,
   }
 }
 
-async function createSenderMessage(senderId, senderEmail, otherRecipients, subject, message, type = "sent") {
+async function createSenderMessage(options) {
+  const {
+    senderId,
+    senderEmail,
+    recipients,
+    subject,
+    body,
+    type = "sent",
+    isModeration,
+    moderationType,
+    moderation,
+  } = options;
+  console.log("options", options);
   //lookup sender first and last names
   const { data, errors } = await signedRequest(lookUpUser, { email: senderEmail });
   const sender = data.usersByEmail.items[0];
@@ -147,16 +232,22 @@ async function createSenderMessage(senderId, senderEmail, otherRecipients, subje
           lastname: sender.lastname,
           senderId: senderId,
           recipientId: senderId,
-          recipients: [...otherRecipients],
+          recipients: [...recipients],
           type: type,
           subject: subject,
-          body: message,
+          body: body,
           owner: `${senderId}::${senderId}`,
+          isModeration: isModeration,
+          moderationType: moderationType,
+          moderation: JSON.stringify(moderation, null, 2),
         },
       };
 
+      console.log("sender message request", messageRequest);
+
       //sender message
       const senderResponse = await signedRequest(createMessageRequest, messageRequest);
+      console.log("senderResponse", JSON.stringify(senderResponse, null, 2));
       if (senderResponse.data) {
         response = senderResponse.data.createMessage;
       } else {
@@ -172,18 +263,22 @@ async function createSenderMessage(senderId, senderEmail, otherRecipients, subje
   }
 }
 
-async function createRecipientMessage(
-  senderFirstname,
-  senderLastname,
-  senderId,
-  senderEmail,
-  recipient,
-  otherRecipients,
-  subject,
-  message,
-  sendDate
-) {
-  console.log("createRecipientMessage", senderId, senderEmail, recipient, otherRecipients, subject, message, sendDate);
+async function createRecipientMessage(options) {
+  const {
+    senderId,
+    senderEmail,
+    senderFirstname,
+    senderLastname,
+    recipient,
+    recipients,
+    subject,
+    body,
+    type = "received",
+    isModeration,
+    moderationType,
+    moderation,
+    createdAt,
+  } = options;
   let response = {};
   try {
     const { data, errors } = await signedRequest(lookUpUser, { email: recipient });
@@ -193,17 +288,20 @@ async function createRecipientMessage(
       if (user?.sub) {
         const messageRequest = {
           input: {
-            createdAt: sendDate,
-            senderEmail: senderEmail,
-            senderId: senderId,
+            createdAt,
+            senderEmail,
+            senderId,
             firstname: senderFirstname,
             lastname: senderLastname,
             recipientId: user.sub,
-            recipients: [...otherRecipients],
+            recipients: [...recipients],
             type: "received",
-            subject: subject,
-            body: message,
+            subject,
+            body,
             owner: `${user.sub}::${user.sub}`,
+            isModeration,
+            moderationType,
+            moderation: JSON.stringify(moderation, null, 2),
           },
         };
 
@@ -220,6 +318,19 @@ async function createRecipientMessage(
         //user not recognized send notification to sender
         const errorSubject = "User not found";
         const errorBody = `User ${recipient} not found`;
+
+        const senderRequest = {
+          senderId,
+          senderEmail,
+          recipients,
+          subject,
+          body,
+          type: "sent",
+          isModeration,
+          moderationType,
+          moderation,
+        };
+
         const errorMessage = await createSenderMessage(
           senderId,
           senderEmail,
@@ -238,7 +349,17 @@ async function createRecipientMessage(
   }
 }
 
-async function createGroupMessage(senderId, senderEmail, group, subject, message, sendDate) {
+async function createGroupMessage(
+  senderId,
+  senderEmail,
+  group,
+  subject,
+  message,
+  sendDate,
+  isModeration,
+  moderationType,
+  moderation
+) {
   const members = await getGroupMembers(group);
   let sentMessages;
   try {
@@ -252,7 +373,10 @@ async function createGroupMessage(senderId, senderEmail, group, subject, message
             group,
             subject,
             message,
-            sendDate
+            sendDate,
+            isModeration,
+            moderationType,
+            moderation
           );
           return sentMessage;
         })

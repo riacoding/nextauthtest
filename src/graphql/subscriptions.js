@@ -72,6 +72,10 @@ export const onCreateUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -90,6 +94,10 @@ export const onUpdateUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -108,6 +116,10 @@ export const onDeleteUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -159,6 +171,114 @@ export const onDeleteIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateCalendarListing = /* GraphQL */ `
+  subscription OnCreateCalendarListing(
+    $filter: ModelSubscriptionCalendarListingFilterInput
+    $owner: String
+  ) {
+    onCreateCalendarListing(filter: $filter, owner: $owner) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateCalendarListing = /* GraphQL */ `
+  subscription OnUpdateCalendarListing(
+    $filter: ModelSubscriptionCalendarListingFilterInput
+    $owner: String
+  ) {
+    onUpdateCalendarListing(filter: $filter, owner: $owner) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteCalendarListing = /* GraphQL */ `
+  subscription OnDeleteCalendarListing(
+    $filter: ModelSubscriptionCalendarListingFilterInput
+    $owner: String
+  ) {
+    onDeleteCalendarListing(filter: $filter, owner: $owner) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
       __typename
     }
   }
@@ -294,6 +414,9 @@ export const onCreateMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred
@@ -326,6 +449,9 @@ export const onUpdateMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred
@@ -358,6 +484,9 @@ export const onDeleteMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred

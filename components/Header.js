@@ -17,6 +17,11 @@ export default function Header() {
         </Link>
       </li>
       <li>
+        <Link className={styles.menuItem} href="/calendar">
+          Calendar
+        </Link>
+      </li>
+      <li>
         <Link className={styles.menuItem} href="/protectedssr">
           Protected SSR
         </Link>

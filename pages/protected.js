@@ -4,7 +4,6 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Home.module.css";
-import "@aws-amplify/ui-react/styles.css";
 import MessageForm from "../components/MessageForm";
 import MessageApp from "../components/MessageApp";
 
@@ -22,6 +21,9 @@ const onCreateMessageSubscription = /* GraphQL */ `
       body
       isRead
       owner
+      isModeration
+      moderationType
+      moderation
     }
   }
 `;
@@ -40,6 +42,9 @@ const getInboxMessages = /* GraphQL */ `
         subject
         body
         isRead
+        isModeration
+        moderationType
+        moderation
       }
     }
   }
@@ -104,7 +109,7 @@ function Protected({ signOut, user }) {
       <main className={styles.main}>
         <h1 className={styles.title}>Messaging</h1>
 
-        <MessageApp messages={inbox} />
+        <MessageApp user={user} messages={inbox} />
       </main>
     </div>
   );

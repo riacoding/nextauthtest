@@ -22,6 +22,9 @@ const getSentMessages = /* GraphQL */ `
         subject
         body
         isRead
+        isModeration
+        moderationType
+        moderation
       }
     }
   }
@@ -61,7 +64,7 @@ function Message({ message, setDetail }) {
         {message?.subject.slice(0, 20)}
       </Text>
       <Text className={styles.bodyList} width={"500px"}>
-        {message?.body.slice(0, 80)}
+        {message?.body.slice(0, 50)}
       </Text>
       <Text>{new Date(message.createdAt).toLocaleDateString()}</Text>
     </Flex>
@@ -95,7 +98,7 @@ function MessageList({ messages, setDetail }) {
   );
 }
 
-export default function MessageApp({ messages }) {
+export default function MessageApp({ messages, user }) {
   const [detail, setDetail] = useState({ show: false, id: null });
   const [isComposing, setIsComposing] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -189,11 +192,25 @@ export default function MessageApp({ messages }) {
       </Flex>
       <Flex width={"100%"} justifyContent={"flex-start"}>
         <Folders folderNames={folders} />
-        {detail.show && !isComposing && <MessageDetail isComposing={isComposing} message={selectedMessage} />}
+        {detail.show && !isComposing && (
+          <MessageDetail
+            user={user}
+            setIsComposing={setIsComposing}
+            isComposing={isComposing}
+            message={selectedMessage}
+          />
+        )}
 
         {!detail.show && !isComposing && <MessageList setDetail={setDetail} messages={displayMessages} />}
 
-        {!detail.show && isComposing && <MessageDetail isComposing={isComposing} message={selectedMessage} />}
+        {!detail.show && isComposing && (
+          <MessageDetail
+            user={user}
+            setIsComposing={setIsComposing}
+            isComposing={isComposing}
+            message={selectedMessage}
+          />
+        )}
       </Flex>
     </Flex>
   );

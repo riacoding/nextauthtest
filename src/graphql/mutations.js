@@ -91,6 +91,10 @@ export const createUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -109,6 +113,10 @@ export const updateUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -127,6 +135,10 @@ export const deleteUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -187,6 +199,114 @@ export const deleteIssue = /* GraphQL */ `
       release_date
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createCalendarListing = /* GraphQL */ `
+  mutation CreateCalendarListing(
+    $input: CreateCalendarListingInput!
+    $condition: ModelCalendarListingConditionInput
+  ) {
+    createCalendarListing(input: $input, condition: $condition) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
+      __typename
+    }
+  }
+`;
+export const updateCalendarListing = /* GraphQL */ `
+  mutation UpdateCalendarListing(
+    $input: UpdateCalendarListingInput!
+    $condition: ModelCalendarListingConditionInput
+  ) {
+    updateCalendarListing(input: $input, condition: $condition) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteCalendarListing = /* GraphQL */ `
+  mutation DeleteCalendarListing(
+    $input: DeleteCalendarListingInput!
+    $condition: ModelCalendarListingConditionInput
+  ) {
+    deleteCalendarListing(input: $input, condition: $condition) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
       __typename
     }
   }
@@ -340,6 +460,9 @@ export const createMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred
@@ -372,6 +495,9 @@ export const updateMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred
@@ -404,6 +530,9 @@ export const deleteMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred

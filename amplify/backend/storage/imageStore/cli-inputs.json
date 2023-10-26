@@ -1,0 +1,15 @@
+{
+  "resourceName": "imageStore",
+  "policyUUID": "95bea228",
+  "bucketName": "nextauthtestimagestore",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger650ff8d0"
+}

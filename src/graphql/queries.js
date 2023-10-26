@@ -49,6 +49,10 @@ export const getUser = /* GraphQL */ `
       lastname
       email
       sub
+      listings {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       owner
@@ -89,6 +93,37 @@ export const usersByEmail = /* GraphQL */ `
   ) {
     usersByEmail(
       email: $email
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const usersBySub = /* GraphQL */ `
+  query UsersBySub(
+    $sub: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersBySub(
+      sub: $sub
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -177,6 +212,113 @@ export const issuesByNumber = /* GraphQL */ `
         release_date
         createdAt
         updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCalendarListing = /* GraphQL */ `
+  query GetCalendarListing($id: ID!) {
+    getCalendarListing(id: $id) {
+      id
+      user {
+        id
+        firstname
+        lastname
+        email
+        sub
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      title
+      body
+      city
+      state
+      gallery
+      approval
+      isPublished
+      publishDate
+      eventDate
+      teardownDate
+      createdAt
+      updatedAt
+      userListingsId
+      owner
+      __typename
+    }
+  }
+`;
+export const listCalendarListings = /* GraphQL */ `
+  query ListCalendarListings(
+    $filter: ModelCalendarListingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCalendarListings(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        body
+        city
+        state
+        gallery
+        approval
+        isPublished
+        publishDate
+        eventDate
+        teardownDate
+        createdAt
+        updatedAt
+        userListingsId
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listingsByApproval = /* GraphQL */ `
+  query ListingsByApproval(
+    $approval: Approval!
+    $eventDate: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCalendarListingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listingsByApproval(
+      approval: $approval
+      eventDate: $eventDate
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        body
+        city
+        state
+        gallery
+        approval
+        isPublished
+        publishDate
+        eventDate
+        teardownDate
+        createdAt
+        updatedAt
+        userListingsId
+        owner
         __typename
       }
       nextToken
@@ -275,6 +417,9 @@ export const getMessage = /* GraphQL */ `
       type
       isRead
       moderation
+      moderationId
+      moderationType
+      isModeration
       subject
       body
       isStarred
@@ -309,6 +454,9 @@ export const listMessages = /* GraphQL */ `
         type
         isRead
         moderation
+        moderationId
+        moderationType
+        isModeration
         subject
         body
         isStarred
@@ -356,6 +504,9 @@ export const messagesBySender = /* GraphQL */ `
         type
         isRead
         moderation
+        moderationId
+        moderationType
+        isModeration
         subject
         body
         isStarred
@@ -403,6 +554,9 @@ export const messagesByRecipient = /* GraphQL */ `
         type
         isRead
         moderation
+        moderationId
+        moderationType
+        isModeration
         subject
         body
         isStarred

@@ -8,7 +8,8 @@ type User
   firstname: String!
   lastname: String!
   email: AWSEmail! @index(name: "usersByEmail", queryField: "usersByEmail")
-  sub: String!
+  sub: String! @index(name: "usersBySub", queryField: "usersBySub")
+  listings: [CalendarListing] @hasMany
 }
 
 type Issue
@@ -28,6 +29,55 @@ type Issue
   date: String
   name: String
   release_date: AWSDateTime
+}
+
+type CalendarListing
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: apiKey }
+      { allow: public, operations: [read], provider: iam }
+      { allow: owner, operations: [create, read, update, delete], provider: userPools }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  user: User @belongsTo
+  title: String!
+  body: String!
+  city: String!
+  state: String!
+  gallery: String
+  approval: Approval
+    @auth(
+      rules: [
+        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
+        { allow: owner, operations: [create, read, delete], provider: userPools }
+        { allow: public, operations: [read], provider: iam }
+        { allow: public, operations: [read], provider: apiKey }
+      ]
+    )
+    @default(value: "pending")
+    @index(name: "listingsByApproval", sortKeyFields: ["eventDate"], queryField: "listingsByApproval")
+  isPublished: Boolean
+    @default(value: "false")
+    @auth(
+      rules: [
+        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
+        { allow: owner, operations: [create, read, delete], provider: userPools }
+        { allow: public, operations: [read], provider: iam }
+        { allow: public, operations: [read], provider: apiKey }
+      ]
+    )
+  publishDate: AWSDate!
+  eventDate: AWSDate!
+  teardownDate: AWSDate!
+}
+
+enum Approval {
+  pending
+  accepted
+  rejected
 }
 
 type Blog
@@ -85,6 +135,9 @@ type Message
   type: MessageType!
   isRead: Boolean @default(value: "false")
   moderation: AWSJSON
+  moderationId: ID
+  moderationType: ModerationType
+  isModeration: Boolean @default(value: "false")
   subject: String
   body: String
   isStarred: Boolean
@@ -98,6 +151,13 @@ type Message
   owner: String!
 }
 
+enum ModerationType {
+  image
+  calendar
+  statement
+  resume
+}
+
 enum MessageType {
   draft
   sent
@@ -109,6 +169,8 @@ input SendMessageInput {
   recipients: [String!]
   isRead: Boolean
   moderation: AWSJSON
+  isModeration: Boolean
+  moderationType: ModerationType
   subject: String
   body: String
   isStarred: Boolean

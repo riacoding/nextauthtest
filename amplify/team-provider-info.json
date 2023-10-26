@@ -22,9 +22,16 @@
       "function": {
         "customResolvers": {
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
-          "s3Key": "amplify-builds/customResolvers-67766e74397268653275-build.zip",
+          "s3Key": "amplify-builds/customResolvers-534c4e5763732f7a4850-build.zip",
           "adminEmail": "lbutton@riacoding.com"
+        },
+        "S3Trigger650ff8d0": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/S3Trigger650ff8d0-4e485858315833574e6c-build.zip"
         }
+      },
+      "storage": {
+        "imageStore": {}
       }
     }
   }
