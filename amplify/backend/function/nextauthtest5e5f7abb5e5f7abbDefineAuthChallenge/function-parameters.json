@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "boilerplate-define-challenge"
+  ],
+  "parentResource": "nextauthtest5e5f7abb5e5f7abb",
+  "functionName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge",
+  "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/DefineAuthChallenge",
+  "triggerTemplate": "DefineAuthChallenge.json.ejs",
+  "triggerEventPath": "DefineAuthChallenge.event.json",
+  "roleName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge",
+  "skipEdit": true
+}

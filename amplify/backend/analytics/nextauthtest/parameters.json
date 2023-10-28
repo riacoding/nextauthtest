@@ -1,0 +1,21 @@
+{
+    "appName": "nextauthtest",
+    "roleName": "pinpointLambdaRole7319aa61",
+    "cloudformationPolicyName": "cloudformationPolicy7319aa61",
+    "cloudWatchPolicyName": "cloudWatchPolicy7319aa61",
+    "pinpointPolicyName": "pinpointPolicy7319aa61",
+    "authPolicyName": "pinpoint_amplify_7319aa61",
+    "unauthPolicyName": "pinpoint_amplify_7319aa61",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

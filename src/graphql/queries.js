@@ -47,6 +47,7 @@ export const getUser = /* GraphQL */ `
       id
       firstname
       lastname
+      ssn
       email
       sub
       listings {
@@ -71,6 +72,7 @@ export const listUsers = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt
@@ -102,6 +104,7 @@ export const usersByEmail = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt
@@ -133,6 +136,7 @@ export const usersBySub = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt
@@ -227,6 +231,7 @@ export const getCalendarListing = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt

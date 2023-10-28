@@ -70,6 +70,7 @@ export const onCreateUser = /* GraphQL */ `
       id
       firstname
       lastname
+      ssn
       email
       sub
       listings {
@@ -92,6 +93,7 @@ export const onUpdateUser = /* GraphQL */ `
       id
       firstname
       lastname
+      ssn
       email
       sub
       listings {
@@ -114,6 +116,7 @@ export const onDeleteUser = /* GraphQL */ `
       id
       firstname
       lastname
+      ssn
       email
       sub
       listings {
@@ -186,6 +189,7 @@ export const onCreateCalendarListing = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt
@@ -222,6 +226,7 @@ export const onUpdateCalendarListing = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt
@@ -258,6 +263,7 @@ export const onDeleteCalendarListing = /* GraphQL */ `
         id
         firstname
         lastname
+        ssn
         email
         sub
         createdAt

@@ -3,10 +3,21 @@
 
 type User
   @model
-  @auth(rules: [{ allow: owner }, { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }]) {
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: owner, operations: [read, update], provider: userPools }
+      { allow: groups, groups: ["users"], operations: [read] }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
   id: ID!
   firstname: String!
   lastname: String!
+  ssn: String
+    @auth(
+      rules: [{ allow: owner, operations: [read, update] }, { allow: groups, groups: ["admin"], operations: [read] }]
+    )
   email: AWSEmail! @index(name: "usersByEmail", queryField: "usersByEmail")
   sub: String! @index(name: "usersBySub", queryField: "usersBySub")
   listings: [CalendarListing] @hasMany
@@ -37,41 +48,44 @@ type CalendarListing
     rules: [
       { allow: public, operations: [read], provider: apiKey }
       { allow: public, operations: [read], provider: iam }
-      { allow: owner, operations: [create, read, update, delete], provider: userPools }
+      { allow: owner, provider: userPools }
       { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+      { allow: groups, groups: ["users"], operations: [read] }
     ]
   ) {
   id: ID!
-  user: User @belongsTo
-  title: String!
-  body: String!
-  city: String!
-  state: String!
-  gallery: String
-  approval: Approval
     @auth(
       rules: [
-        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
-        { allow: owner, operations: [create, read, delete], provider: userPools }
-        { allow: public, operations: [read], provider: iam }
         { allow: public, operations: [read], provider: apiKey }
+        { allow: public, operations: [read], provider: iam }
+        { allow: owner, provider: userPools }
+        { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+        { allow: groups, groups: ["users"], operations: [read] }
       ]
     )
+  user: User @belongsTo
+  title: String
+  body: String
+  city: String
+  state: String
+  gallery: String
+  approval: Approval
     @default(value: "pending")
     @index(name: "listingsByApproval", sortKeyFields: ["eventDate"], queryField: "listingsByApproval")
   isPublished: Boolean
     @default(value: "false")
     @auth(
       rules: [
-        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
-        { allow: owner, operations: [create, read, delete], provider: userPools }
-        { allow: public, operations: [read], provider: iam }
         { allow: public, operations: [read], provider: apiKey }
+        { allow: public, operations: [read], provider: iam }
+        { allow: groups, groups: ["users"], operations: [read] }
+        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
+        { allow: owner, operations: [read, create, delete], provider: userPools }
       ]
     )
-  publishDate: AWSDate!
-  eventDate: AWSDate!
-  teardownDate: AWSDate!
+  publishDate: AWSDate
+  eventDate: AWSDate
+  teardownDate: AWSDate
 }
 
 enum Approval {

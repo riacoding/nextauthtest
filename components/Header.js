@@ -12,13 +12,18 @@ export default function Header() {
         </Link>
       </li>
       <li>
-        <Link className={styles.menuItem} href="/protected">
+        <Link className={styles.menuItem} href="/messages">
           Messages
         </Link>
       </li>
       <li>
         <Link className={styles.menuItem} href="/calendar">
           Calendar
+        </Link>
+      </li>
+      <li>
+        <Link className={styles.menuItem} href="/protected">
+          Protected
         </Link>
       </li>
       <li>

@@ -1,4 +1,11 @@
 export type AmplifyDependentResourcesAttributes = {
+  "analytics": {
+    "nextauthtest": {
+      "Id": "string",
+      "Region": "string",
+      "appName": "string"
+    }
+  },
   "api": {
     "nextauthtest": {
       "GraphQLAPIEndpointOutput": "string",
@@ -30,6 +37,34 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string"
     },
     "customResolvers": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "nextauthtest5e5f7abb5e5f7abbPreSignup": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

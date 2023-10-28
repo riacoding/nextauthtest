@@ -1,4 +1,10 @@
 {
+  "analytics": {
+    "nextauthtest": {
+      "providerPlugin": "awscloudformation",
+      "service": "Pinpoint"
+    }
+  },
   "api": {
     "nextauthtest": {
       "dependsOn": [
@@ -40,7 +46,44 @@
   "auth": {
     "nextauthtest5e5f7abb5e5f7abb": {
       "customAuth": false,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
       "frontendAuthConfig": {
         "mfaConfiguration": "OFF",
         "mfaTypes": [
@@ -102,6 +145,36 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Id",
+            "Region"
+          ],
+          "category": "analytics",
+          "resourceName": "nextauthtest"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nextauthtest5e5f7abb5e5f7abbPreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -142,6 +215,70 @@
         {
           "category": "function",
           "resourceName": "customResolvers"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPreSignup_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPreSignup_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse"
         }
       ]
     }

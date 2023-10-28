@@ -1,0 +1,220 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+
+type User
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: owner, operations: [read, update], provider: userPools }
+      { allow: groups, groups: ["users"], operations: [read] }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  ssn: String
+    @auth(
+      rules: [{ allow: owner, operations: [read, update] }, { allow: groups, groups: ["admin"], operations: [read] }]
+    )
+  email: AWSEmail! @index(name: "usersByEmail", queryField: "usersByEmail")
+  sub: String! @index(name: "usersBySub", queryField: "usersBySub")
+  listings: [CalendarListing] @hasMany
+}
+
+type Issue
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: private, operations: [read, create, update, delete], provider: iam }
+    ]
+  ) {
+  id: ID!
+  type: String!
+    @default(value: "Issue")
+    @index(name: "issuesByNumber", queryField: "issuesByNumber", sortKeyFields: ["number"])
+  issue_id: Int!
+  number: Int!
+  date: String
+  name: String
+  release_date: AWSDateTime
+}
+
+type CalendarListing
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: apiKey }
+      { allow: public, operations: [read], provider: iam }
+      { allow: owner, provider: userPools }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+      { allow: groups, groups: ["users"], operations: [read] }
+    ]
+  ) {
+  id: ID!
+    @auth(
+      rules: [
+        { allow: public, operations: [read], provider: apiKey }
+        { allow: public, operations: [read], provider: iam }
+        { allow: owner, provider: userPools }
+        { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+        { allow: groups, groups: ["users"], operations: [read] }
+      ]
+    )
+  user: User @belongsTo
+  title: String
+  body: String
+  city: String
+  state: String
+  gallery: String
+  approval: Approval
+    @auth(
+      rules: [
+        { allow: groups, groups: ["admin"], operations: [create, read, update, delete] }
+        { allow: groups, groups: ["users"], operations: [create, read] }
+        { allow: owner, operations: [create, read, delete], provider: userPools }
+        { allow: public, operations: [read], provider: iam }
+        { allow: public, operations: [read], provider: apiKey }
+      ]
+    )
+    @default(value: "pending")
+    @index(name: "listingsByApproval", sortKeyFields: ["eventDate"], queryField: "listingsByApproval")
+  isPublished: Boolean
+    @default(value: "false")
+    @auth(
+      rules: [
+        { allow: groups, groups: ["users"], operations: [read] }
+        { allow: groups, groups: ["admin"], operations: [read, update] }
+        { allow: owner, operations: [create, read, delete], provider: userPools }
+        { allow: public, operations: [read], provider: iam }
+        { allow: private, operations: [read, update], provider: iam }
+        { allow: public, operations: [read], provider: apiKey }
+      ]
+    )
+  publishDate: AWSDate
+  eventDate: AWSDate
+  teardownDate: AWSDate
+}
+
+enum Approval {
+  pending
+  accepted
+  rejected
+}
+
+type Blog
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: private, operations: [read], provider: iam }
+      { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  posts: [Post] @hasMany
+}
+
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: groups, groups: ["users"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  title: String!
+  blog: Blog @belongsTo
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  id: ID!
+  post: Post @belongsTo
+  content: String!
+}
+
+type Message
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [create], provider: userPools }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  senderEmail: AWSEmail!
+  firstname: String
+  lastname: String
+  senderId: ID! @index(name: "messagesBySender", sortKeyFields: ["createdAt", "type"], queryField: "messagesBySender")
+  recipients: [String!]
+  recipientId: ID!
+    @index(name: "messagesByRecipient", sortKeyFields: ["createdAt", "type"], queryField: "messagesByRecipient")
+  threadId: ID
+  type: MessageType!
+  isRead: Boolean @default(value: "false")
+  moderation: AWSJSON
+  moderationId: ID
+  moderationType: ModerationType
+  isModeration: Boolean @default(value: "false")
+  subject: String
+  body: String
+  isStarred: Boolean
+  labels: [String]
+  folder: String
+  replies: AWSJSON
+  cc: [String]
+  attatchments: [String]
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  owner: String!
+}
+
+enum ModerationType {
+  image
+  calendar
+  statement
+  resume
+}
+
+enum MessageType {
+  draft
+  sent
+  received
+}
+
+input SendMessageInput {
+  senderEmail: AWSEmail!
+  recipients: [String!]
+  isRead: Boolean
+  moderation: AWSJSON
+  isModeration: Boolean
+  moderationType: ModerationType
+  subject: String
+  body: String
+  isStarred: Boolean
+  labels: [String]
+  folder: String
+  replies: AWSJSON
+  cc: [String]
+  attatchments: [String]
+}
+
+type Error {
+  message: String
+}
+
+type SendMessageResponse {
+  recipient: String
+  status: String
+  error: String
+}
+
+type Mutation {
+  sendMessage(input: SendMessageInput!): [SendMessageResponse] @function(name: "customResolvers-${env}")
+}

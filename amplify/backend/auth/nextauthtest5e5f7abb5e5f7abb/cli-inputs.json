@@ -43,7 +43,20 @@
     ],
     "userPoolGroups": true,
     "adminQueries": false,
-    "triggers": {},
+    "triggers": {
+      "CreateAuthChallenge": [
+        "boilerplate-create-challenge"
+      ],
+      "DefineAuthChallenge": [
+        "boilerplate-define-challenge"
+      ],
+      "PreSignup": [
+        "custom"
+      ],
+      "VerifyAuthChallengeResponse": [
+        "boilerplate-verify"
+      ]
+    },
     "hostedUI": false,
     "userPoolGroupList": [
       "admin",
@@ -65,11 +78,49 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": [],
+    "dependsOn": [
+      {
+        "category": "function",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      }
+    ],
     "authProviders": [],
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CreateAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"DefineAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPreSignup\"\n  },\n  {\n    \"triggerType\": \"VerifyAuthChallengeResponse\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse\"\n  }\n]"
   }
-} 
+}

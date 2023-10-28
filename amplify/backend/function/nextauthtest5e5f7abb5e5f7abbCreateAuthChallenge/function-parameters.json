@@ -1,0 +1,26 @@
+{
+  "trigger": true,
+  "modules": [
+    "boilerplate-create-challenge"
+  ],
+  "parentResource": "nextauthtest5e5f7abb5e5f7abb",
+  "functionName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge",
+  "resourceName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CreateAuthChallenge",
+  "triggerTemplate": "CreateAuthChallenge.json.ejs",
+  "triggerEventPath": "CreateAuthChallenge.event.json",
+  "roleName": "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge",
+  "skipEdit": true,
+  "permissions": {
+    "analytics": {
+      "nextauthtest": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

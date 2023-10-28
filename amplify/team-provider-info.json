@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-nextauthtest-dev-125919-unauthRole",
       "StackName": "amplify-nextauthtest-dev-125919",
       "StackId": "arn:aws:cloudformation:us-west-1:897103703532:stack/amplify-nextauthtest-dev-125919/32c1e8f0-499f-11ed-b0ed-02bbf3aeb9a5",
-      "AmplifyAppId": "d2wfkjj2m0ldv4"
+      "AmplifyAppId": "d2wfkjj2m0ldv4",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-nextauthtest-dev-125919-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
@@ -22,16 +23,35 @@
       "function": {
         "customResolvers": {
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
-          "s3Key": "amplify-builds/customResolvers-534c4e5763732f7a4850-build.zip",
+          "s3Key": "amplify-builds/customResolvers-39644a473965346e4c58-build.zip",
           "adminEmail": "lbutton@riacoding.com"
         },
         "S3Trigger650ff8d0": {
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
           "s3Key": "amplify-builds/S3Trigger650ff8d0-4e485858315833574e6c-build.zip"
+        },
+        "nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge-30776234315573685430-build.zip"
+        },
+        "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge-6e373339495a4e327571-build.zip"
+        },
+        "nextauthtest5e5f7abb5e5f7abbPreSignup": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbPreSignup-4153346858424c5a3678-build.zip"
+        },
+        "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse-4144704f4f4b74553962-build.zip"
         }
       },
       "storage": {
         "imageStore": {}
+      },
+      "analytics": {
+        "nextauthtest": {}
       }
     }
   }

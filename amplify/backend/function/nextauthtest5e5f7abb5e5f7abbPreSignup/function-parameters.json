@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "nextauthtest5e5f7abb5e5f7abb",
+  "functionName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
+  "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PreSignup",
+  "triggerTemplate": "PreSignup.json.ejs",
+  "triggerEventPath": "PreSignup.event.json",
+  "roleName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
+  "skipEdit": true
+}

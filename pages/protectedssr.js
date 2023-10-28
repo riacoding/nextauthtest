@@ -33,7 +33,7 @@ export async function getServerSideProps({ req }) {
     console.log(err);
     return {
       redirect: {
-        destination: "/protected",
+        destination: "/login",
         permanent: false,
       },
     };

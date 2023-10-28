@@ -11,8 +11,9 @@ import {
   View,
   Button,
   Loader,
+  useAuthenticator,
 } from "@aws-amplify/ui-react";
-import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
+import { Amplify, API, Auth, graphqlOperation, Hub } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../../styles/Home.module.css";
 
@@ -39,8 +40,23 @@ const getListings = /* GraphQL */ `
   }
 `;
 
-function Calendar({ signOut, user }) {
+function Calendar() {
   const [listings, setListings] = useState([]);
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
+
+  useEffect(() => {
+    const listener = (data) => {
+      const { payload } = data;
+      console.log("Event received", payload);
+      // Take action based on the event
+    };
+
+    const hub = Hub.listen("api", listener);
+    return () => {
+      hub();
+    };
+  }, []);
+
   useEffect(() => {
     const getCalendarListings = async () => {
       try {
@@ -49,7 +65,7 @@ function Calendar({ signOut, user }) {
           variables: {
             date: "2024-01-01",
           },
-          authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
+          authMode: user ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM,
         });
         if (!errors) {
           setListings(data["listingsByApproval"].items);
@@ -102,4 +118,4 @@ function Calendar({ signOut, user }) {
   );
 }
 
-export default withAuthenticator(Calendar, { loginMechanisms: ["email"] });
+export default Calendar;
