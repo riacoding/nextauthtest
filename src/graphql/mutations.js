@@ -554,3 +554,105 @@ export const deleteMessage = /* GraphQL */ `
     }
   }
 `;
+export const createVoteAggregates = /* GraphQL */ `
+  mutation CreateVoteAggregates(
+    $input: CreateVoteAggregatesInput!
+    $condition: ModelVoteAggregatesConditionInput
+  ) {
+    createVoteAggregates(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const updateVoteAggregates = /* GraphQL */ `
+  mutation UpdateVoteAggregates(
+    $input: UpdateVoteAggregatesInput!
+    $condition: ModelVoteAggregatesConditionInput
+  ) {
+    updateVoteAggregates(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteVoteAggregates = /* GraphQL */ `
+  mutation DeleteVoteAggregates(
+    $input: DeleteVoteAggregatesInput!
+    $condition: ModelVoteAggregatesConditionInput
+  ) {
+    deleteVoteAggregates(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const createVote = /* GraphQL */ `
+  mutation CreateVote(
+    $input: CreateVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    createVote(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const updateVote = /* GraphQL */ `
+  mutation UpdateVote(
+    $input: UpdateVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    updateVote(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const deleteVote = /* GraphQL */ `
+  mutation DeleteVote(
+    $input: DeleteVoteInput!
+    $condition: ModelVoteConditionInput
+  ) {
+    deleteVote(input: $input, condition: $condition) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;

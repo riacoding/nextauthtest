@@ -580,3 +580,105 @@ export const messagesByRecipient = /* GraphQL */ `
     }
   }
 `;
+export const getVoteAggregates = /* GraphQL */ `
+  query GetVoteAggregates($id: ID!) {
+    getVoteAggregates(id: $id) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listVoteAggregates = /* GraphQL */ `
+  query ListVoteAggregates(
+    $filter: ModelVoteAggregatesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVoteAggregates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        competitionId
+        entryId
+        votes
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const votesByCompetition = /* GraphQL */ `
+  query VotesByCompetition(
+    $competitionId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelVoteAggregatesFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    votesByCompetition(
+      competitionId: $competitionId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        competitionId
+        entryId
+        votes
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getVote = /* GraphQL */ `
+  query GetVote($id: ID!) {
+    getVote(id: $id) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const listVotes = /* GraphQL */ `
+  query ListVotes(
+    $filter: ModelVoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        competitionId
+        entryId
+        userId
+        createdAt
+        updatedAt
+        owner
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

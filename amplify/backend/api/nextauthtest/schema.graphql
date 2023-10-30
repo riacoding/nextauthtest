@@ -172,6 +172,31 @@ enum ModerationType {
   resume
 }
 
+type VoteAggregates
+  @model
+  @auth(
+    rules: [
+      { allow: public, operations: [read], provider: iam }
+      { allow: private, operations: [read, update], provider: iam }
+      { allow: owner, provider: userPools }
+      { allow: groups, groups: ["users"], operations: [read] }
+      { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
+    ]
+  ) {
+  id: ID!
+  competitionId: ID! @index(name: "votesByCompetition", queryField: "votesByCompetition")
+  entryId: ID!
+  votes: Int
+}
+
+type Vote @model @auth(rules: [{ allow: owner, provider: userPools }]) {
+  #id competitionId#userId
+  id: ID!
+  competitionId: String
+  entryId: String
+  userId: String
+}
+
 enum MessageType {
   draft
   sent

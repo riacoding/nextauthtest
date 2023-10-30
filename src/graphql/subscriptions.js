@@ -508,3 +508,105 @@ export const onDeleteMessage = /* GraphQL */ `
     }
   }
 `;
+export const onCreateVoteAggregates = /* GraphQL */ `
+  subscription OnCreateVoteAggregates(
+    $filter: ModelSubscriptionVoteAggregatesFilterInput
+    $owner: String
+  ) {
+    onCreateVoteAggregates(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateVoteAggregates = /* GraphQL */ `
+  subscription OnUpdateVoteAggregates(
+    $filter: ModelSubscriptionVoteAggregatesFilterInput
+    $owner: String
+  ) {
+    onUpdateVoteAggregates(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteVoteAggregates = /* GraphQL */ `
+  subscription OnDeleteVoteAggregates(
+    $filter: ModelSubscriptionVoteAggregatesFilterInput
+    $owner: String
+  ) {
+    onDeleteVoteAggregates(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      votes
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onCreateVote = /* GraphQL */ `
+  subscription OnCreateVote(
+    $filter: ModelSubscriptionVoteFilterInput
+    $owner: String
+  ) {
+    onCreateVote(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onUpdateVote = /* GraphQL */ `
+  subscription OnUpdateVote(
+    $filter: ModelSubscriptionVoteFilterInput
+    $owner: String
+  ) {
+    onUpdateVote(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
+export const onDeleteVote = /* GraphQL */ `
+  subscription OnDeleteVote(
+    $filter: ModelSubscriptionVoteFilterInput
+    $owner: String
+  ) {
+    onDeleteVote(filter: $filter, owner: $owner) {
+      id
+      competitionId
+      entryId
+      userId
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+  }
+`;
