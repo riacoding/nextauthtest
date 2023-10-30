@@ -29,6 +29,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "AggregateVotes": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "S3Trigger650ff8d0": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

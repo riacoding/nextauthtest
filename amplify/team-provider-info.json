@@ -45,6 +45,11 @@
         "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
           "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse-4144704f4f4b74553962-build.zip"
+        },
+        "AggregateVotes": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/AggregateVotes-6156375a70654543364d-build.zip",
+          "aggregateVotesTable": "VoteAggregates-aba7nxlzwzcvhdmcz55firjr6y-dev"
         }
       },
       "storage": {

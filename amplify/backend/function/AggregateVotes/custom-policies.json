@@ -1,0 +1,24 @@
+[
+  {
+    "Action": [
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:GetItem"
+    ],
+    "Resource": [
+      {
+        "Fn::Sub": [
+          "arn:aws:dynamodb:us-west-1:897103703532:table/VoteAggregates-${graphqlId}-${env}",
+          {
+            "graphqlId": {
+              "Ref": "apinextauthtestGraphQLAPIIdOutput"
+            },
+            "env": {
+              "Ref": "env"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

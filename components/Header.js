@@ -22,8 +22,8 @@ export default function Header() {
         </Link>
       </li>
       <li>
-        <Link className={styles.menuItem} href="/protected">
-          Protected
+        <Link className={styles.menuItem} href="/voting">
+          Voting
         </Link>
       </li>
       <li>

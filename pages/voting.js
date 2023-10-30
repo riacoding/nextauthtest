@@ -24,6 +24,19 @@ const checkVoteQuery = /* GraphQL */ `
   }
 `;
 
+const votesCast = /* GraphQL */ `
+  query votesByCompetition($competitionId: ID!) {
+    votesByCompetition(competitionId: $competitionId) {
+      items {
+        id
+        competitionId
+        entryId
+        votes
+      }
+    }
+  }
+`;
+
 const castVoteMutation = /* GraphQL */ `
   mutation createVote($input: CreateVoteInput!) {
     createVote(input: $input) {
@@ -46,6 +59,22 @@ async function checkVote(vote) {
     });
 
     return data["getVote"];
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getVoteAggregates(competitionId) {
+  try {
+    const { data, errors } = await API.graphql({
+      query: votesCast,
+      variables: {
+        competitionId: competitionId,
+      },
+      authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
+    });
+
+    return data["createVote"];
   } catch (error) {
     console.log(error);
   }
@@ -76,8 +105,33 @@ async function castVote(vote) {
 export default function Voting() {
   const competitionId = "123";
   const [voteStatus, setVoteStatus] = useState({ hasVoted: false, vote: null });
+  const [voteAggregates, setVoteAggregates] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { authStatus, cognitoUser, signOut } = useAuthRedirect();
+
+  useEffect(() => {
+    async function getAggregates() {
+      setIsLoading(true);
+      try {
+        const { data, errors } = await API.graphql({
+          query: votesCast,
+          variables: {
+            competitionId: competitionId,
+          },
+          authMode: cognitoUser ? GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS : GRAPHQL_AUTH_MODE.AWS_IAM,
+        });
+        setVoteAggregates(data["votesByCompetition"].items);
+      } catch (error) {
+        console.log(error);
+      }
+
+      setIsLoading(false);
+    }
+    //Not yet implemented for public
+    if (cognitoUser) {
+      getAggregates();
+    }
+  }, [cognitoUser]);
 
   useEffect(() => {
     if (cognitoUser) {
@@ -141,6 +195,15 @@ export default function Voting() {
               <Flex justifyContent={"center"} direction={"column"}>
                 <View className={styles.imageContainer} width={250} height={250}>
                   <Image src={image.imageURL} layout="fill" objectFit="contain" alt="Vote image" />
+                </View>
+                <View>
+                  {voteAggregates && voteAggregates.find((vote) => vote.entryId === image.entryId) ? (
+                    <Text textAlign="center">
+                      Votes {voteAggregates.find((vote) => vote.entryId === image.entryId).votes}
+                    </Text>
+                  ) : (
+                    <Text textAlign="center">No Votes</Text>
+                  )}
                 </View>
                 <Button disabled={voteStatus.hasVoted} variation={"primary"} onClick={() => onVote(image)}>
                   {voteStatus.hasVoted ? "Voted" : "Vote"}

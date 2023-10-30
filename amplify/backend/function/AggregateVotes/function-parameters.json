@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "api": {
+      "nextauthtest": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "aggregateVotesTable",
+      "environmentVariableName": "AGGREGATE_VOTES_TABLE"
+    }
+  ]
+}

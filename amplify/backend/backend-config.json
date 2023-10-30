@@ -125,6 +125,30 @@
     }
   },
   "function": {
+    "AggregateVotes": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "nextauthtest"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "nextauthtest"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "S3Trigger650ff8d0": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -178,6 +202,30 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_AggregateVotes_aggregateVotesTable": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AggregateVotes"
+        }
+      ]
+    },
+    "AMPLIFY_function_AggregateVotes_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AggregateVotes"
+        }
+      ]
+    },
+    "AMPLIFY_function_AggregateVotes_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AggregateVotes"
+        }
+      ]
+    },
     "AMPLIFY_function_S3Trigger650ff8d0_deploymentBucketName": {
       "usedBy": [
         {

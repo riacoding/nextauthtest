@@ -93,7 +93,7 @@ export default function Login() {
                 //Cookies.set(accessToken, session.getAccessToken().getJwtToken(), { expires: 365 });
                 //Cookies.set(refreshToken, session.getRefreshToken().getToken(), { expires: 365 });
                 Cookies.set(lastAuthUser, email, { expires: 365 });
-                router.push('/messages')
+                router.push(window.localStorage.getItem("redirectPath"))
             }
         } else {
             setForm("login")

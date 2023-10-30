@@ -183,6 +183,7 @@ type VoteAggregates
       { allow: groups, groups: ["admin"], operations: [read, create, update, delete] }
     ]
   ) {
+  #id competitionId#entryId
   id: ID!
   competitionId: ID! @index(name: "votesByCompetition", queryField: "votesByCompetition")
   entryId: ID!
