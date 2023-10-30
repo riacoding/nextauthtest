@@ -11,7 +11,7 @@ import styles from "../../styles/Home.module.css";
 export async function getStaticProps() {
   const SSR = withSSRContext();
   const { data } = await SSR.API.graphql({ query: listBlogs, authMode: GRAPHQL_AUTH_MODE.AWS_IAM });
-  console.log("Blogs GSProps", data);
+
   return {
     props: {
       blogs: data.listBlogs.items,

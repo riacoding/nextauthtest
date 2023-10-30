@@ -1,27 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Auth } from "aws-amplify";
-import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Auth, Hub } from "aws-amplify";
+
 export default function useAuthRedirect() {
+  const [authStatus, setAuthStatus] = useState("configuring");
+  const [cognitoUser, setCognitoUser] = useState(null);
+  const [authEvent, setAuthEvent] = useState(null);
   const router = useRouter();
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  Hub.listen("auth", (data) => {
+    const event = data.payload.event;
+    setAuthEvent(event);
+  });
 
   useEffect(() => {
-    console.log("authStatus", authStatus);
-    if (authStatus === "configuring" || authStatus === "unauthenticated") {
-      window.localStorage.setItem("redirectpath", router.asPath);
-      router.replace("/login");
-    } else {
-      async function getCurrentUser() {
-        if (user) {
-          await Auth.currentAuthenticatedUser({ bypassCache: false });
+    async function checkUser() {
+      try {
+        const cognitoUser = await Auth.currentAuthenticatedUser();
+        setCognitoUser(cognitoUser);
+        setAuthStatus("authenticated");
+      } catch (err) {
+        setAuthStatus("unauthenticated");
+        setCognitoUser(null);
+      }
+    }
+    checkUser();
+  }, []);
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      if (authEvent === "signIn") {
+        try {
+          const cognitoUser = await Auth.currentAuthenticatedUser();
+          setCognitoUser(cognitoUser);
+          setAuthStatus("authenticated");
+        } catch (err) {
+          setAuthStatus("unauthenticated");
         }
       }
 
-      getCurrentUser();
+      if (authEvent === "signOut") {
+        setAuthStatus("unauthenticated");
+        setCognitoUser(null);
+      }
     }
-  }, [authStatus, router, user]);
 
-  return { authStatus, user, signOut };
+    getCurrentUser();
+  }, [authEvent]);
+
+  return { authStatus, cognitoUser, signOut: Auth.signOut };
 }

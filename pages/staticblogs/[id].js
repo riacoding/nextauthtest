@@ -30,8 +30,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  console.log("GetStaticProps");
-  console.log("params GSProps", params);
   const SSR = withSSRContext();
   try {
     const { data } = await SSR.API.graphql({
@@ -41,8 +39,6 @@ export async function getStaticProps({ params }) {
       },
       authMode: GRAPHQL_AUTH_MODE.AWS_IAM,
     });
-
-    console.log("GSProps data", data);
 
     return {
       props: {

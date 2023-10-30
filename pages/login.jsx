@@ -17,11 +17,11 @@ import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import { useForm } from "react-hook-form";
 import chance from "chance"
+import Cookies from 'js-cookie';
 import styles from "../styles/Home.module.css";
 
-Amplify.Auth.configure({
-    authenticationFlowType: "CUSTOM_AUTH",
-});
+
+
 
 export default function Login() {
     const router = useRouter()
@@ -30,8 +30,12 @@ export default function Login() {
     const [cognitoUser, setCognitoUser] = useState()
 
     async function loginWithEmail(email) {
-        const user = await Auth.signIn(email)
-        setCognitoUser(user)
+        try {
+            const user = await Auth.signIn(email)
+            setCognitoUser(user)
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     async function signup(email) {
@@ -64,21 +68,35 @@ export default function Login() {
             console.log("submit", data);
             loginWithEmail(data.email)
             setForm("code")
-        }
-
-        if (form === "signup") {
+        } else if (form === "signup") {
             console.log("submit", data);
             //signup
 
             //login
             setForm("code")
-        }
-
-        if (form === "code") {
+        } else if (form === "code") {
             const result = await answerCustomChallenge(data.code)
             if (result.attributes.sub) {
+                const session = await Auth.currentSession();
+                const clientId = session.getAccessToken().payload.client_id
+                const email = session.getIdToken().payload.email
+                console.log("email", email);
+                const provider = "CognitoIdentityServiceProvider"
+                const root = `${provider}.${clientId}.${email}`
+                console.log("root", root);
+                const lastAuthUser = `${provider}.${clientId}.LastAuthUser`
+                const accessToken = `${root}.accessToken`
+                const refreshToken = `${root}.refreshToken`
+                const idToken = `${root}.idToken`
+
+                //Cookies.set(idToken, session.getIdToken().getJwtToken(), { expires: 365 });
+                //Cookies.set(accessToken, session.getAccessToken().getJwtToken(), { expires: 365 });
+                //Cookies.set(refreshToken, session.getRefreshToken().getToken(), { expires: 365 });
+                Cookies.set(lastAuthUser, email, { expires: 365 });
                 router.push('/messages')
             }
+        } else {
+            setForm("login")
         }
     }
 

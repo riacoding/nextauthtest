@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Auth, API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
-import { Flex, Card, Text, TextField, TextAreaField, View, Button, useTheme } from "@aws-amplify/ui-react";
+import { Flex, Card, Text, TextField, TextAreaField, View, Button, useTheme, Loader } from "@aws-amplify/ui-react";
 import { sendMessage } from "../lib/sendMessage";
 import MessageForm from "./MessageForm";
 import CalendarListing from "./CalendarListing";
@@ -61,6 +61,8 @@ function DetailCard({ message }) {
 export default function MessageDetail({ message, isComposing, setIsComposing, user }) {
   const { tokens } = useTheme();
   const [isReplying, setIsReplying] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
+  const [isAccepting, setIsAccepting] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [groups, setGroups] = useState(null);
 
@@ -99,6 +101,7 @@ export default function MessageDetail({ message, isComposing, setIsComposing, us
   }
 
   async function onAccept(message) {
+    setIsAccepting(true);
     const calendarListing = JSON.parse(message.moderation);
     await updateObjectApproval(calendarListing, "accepted");
     console.log("accept", message);
@@ -110,9 +113,11 @@ export default function MessageDetail({ message, isComposing, setIsComposing, us
       body: `Your ${message.moderationType} request with id: ${calendarListing.id} and titled ${calendarListing.title} has been approved`,
     };
     await sendMessage(messageRequest);
+    setIsAccepting(false);
   }
 
   async function onReject(message) {
+    setIsRejecting(true);
     const calendarListing = JSON.parse(message.moderation);
     await updateObjectApproval(calendarListing, "rejected");
     console.log("reject", message);
@@ -123,6 +128,7 @@ export default function MessageDetail({ message, isComposing, setIsComposing, us
       body: `Your ${message.moderationType} request with id: ${calendarListing.id} and titled ${calendarListing.title} has been rejected`,
     };
     await sendMessage(messageRequest);
+    setIsRejecting(false);
   }
 
   return (
@@ -163,10 +169,10 @@ export default function MessageDetail({ message, isComposing, setIsComposing, us
           {groups && groups.includes("admin") && message?.isModeration && (
             <Flex>
               <Button onClick={() => onReject(message)} backgroundColor={tokens.colors.reject} variation="primary">
-                Reject
+                {isRejecting ? <Loader /> : "Reject"}
               </Button>
               <Button onClick={() => onAccept(message)} backgroundColor={tokens.colors.accept} variation="primary">
-                Accept
+                {isAccepting ? <Loader /> : "Accept"}
               </Button>
             </Flex>
           )}

@@ -20,6 +20,14 @@ function ProtectedSSR({ authenticated, username }) {
 
 export async function getServerSideProps({ req }) {
   const SSR = withSSRContext({ req });
+
+  SSR.Auth.configure({
+    region: process.env.AUTH_REGION,
+    userPoolId: process.env.AUTH_POOL,
+    userPoolWebClientId: process.env.AUTH_POOL_CLIENT,
+    mandatorySignIn: false,
+  });
+
   try {
     const cognitoUser = await SSR.Auth.currentAuthenticatedUser();
     console.log("cognito user", cognitoUser.attributes.email);
@@ -30,7 +38,7 @@ export async function getServerSideProps({ req }) {
       },
     };
   } catch (err) {
-    console.log(err);
+    console.log("SSR Error", err);
     return {
       redirect: {
         destination: "/login",

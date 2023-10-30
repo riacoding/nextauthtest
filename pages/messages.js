@@ -1,13 +1,13 @@
 import react, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
-import { withAuthenticator, View } from "@aws-amplify/ui-react";
+import { withAuthenticator, View, Loader } from "@aws-amplify/ui-react";
 import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 import styles from "../styles/Home.module.css";
 import MessageForm from "../components/MessageForm";
 import MessageApp from "../components/MessageApp";
 import useAuthRedirect from "../hooks/useAuthRedirect";
+import { RequireAuth } from "../components/RequireAuth";
 
 const onCreateMessageSubscription = /* GraphQL */ `
   subscription onCreateMessage($owner: String!) {
@@ -53,28 +53,22 @@ const getInboxMessages = /* GraphQL */ `
 `;
 
 function MyMessages() {
-  const router = useRouter();
-  const { authStatus, user = null, signOut } = useAuthRedirect();
+  const { authStatus, cognitoUser, signOut } = useAuthRedirect();
   const [inbox, setInbox] = useState([]);
-
-  useEffect(() => {
-    if (!user) {
-      router.push("/login");
-    }
-  }, [user, router]);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const getMessages = async () => {
       try {
         const { data, errors } = await API.graphql({
           query: getInboxMessages,
           variables: {
-            recipient: user.attributes.sub,
+            recipient: cognitoUser.attributes.sub,
           },
           authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
         });
         if (!errors) {
           setInbox(data["messagesByRecipient"].items);
+          setIsLoading(false);
         } else {
           throw new Error("Set Messages Error");
         }
@@ -82,16 +76,17 @@ function MyMessages() {
         console.log(err);
       }
     };
-    if (user) {
+    if (cognitoUser && authStatus === "authenticated") {
+      setIsLoading(true);
       getMessages();
     }
-  }, [user]);
+  }, [authStatus, cognitoUser]);
 
   useEffect(() => {
     let subscription;
-    if (user) {
+    if (cognitoUser) {
       subscription = API.graphql(
-        graphqlOperation(onCreateMessageSubscription, { owner: user.attributes.sub })
+        graphqlOperation(onCreateMessageSubscription, { owner: cognitoUser.attributes.sub })
       ).subscribe({
         next: (messageData) => {
           // When a new message is created, it will trigger this callback
@@ -109,11 +104,11 @@ function MyMessages() {
 
     return () => {
       // Unsubscribe when the component unmounts
-      if (user) {
+      if (cognitoUser) {
         subscription.unsubscribe();
       }
     };
-  }, [inbox, user]);
+  }, [inbox, cognitoUser]);
 
   return (
     <div className={styles.container}>
@@ -124,12 +119,12 @@ function MyMessages() {
       </Head>
 
       <main className={styles.main}>
-        {user && (
-          <View>
-            <h1 className={styles.title}>Messaging</h1>
-            {user && <MessageApp user={user} messages={inbox} />}
-          </View>
-        )}
+        <View>
+          <h1 className={styles.title}>Messaging</h1>
+          <RequireAuth>
+            {isLoading ? <Loader variation="linear" /> : <MessageApp cognitoUser={cognitoUser} messages={inbox} />}
+          </RequireAuth>
+        </View>
       </main>
     </div>
   );
