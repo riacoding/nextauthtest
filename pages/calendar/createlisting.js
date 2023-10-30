@@ -17,6 +17,7 @@ import {
   withAuthenticator,
   FileUploader,
 } from "@aws-amplify/ui-react";
+import { RequireAuth } from "../../components/RequireAuth";
 import styles from "../../styles/form.module.css";
 
 const sendMessageMutation = /* GraphQL */ `
@@ -231,100 +232,102 @@ function CreateCalendarListing({ user, signOut }) {
   }, [uploadImage]);
 
   return (
-    <Flex width={"100%"} alignItems={"center"} direction={"column"}>
-      <form className={styles.metadataForm} onSubmit={handleSubmit(onSubmit)}>
-        <Flex gap={"10px"} alignItems={"center"} direction={"column"}>
-          <Card width={"100%"} variation="outlined" paddingBottom={"30px"}>
-            <Text padding="20px 0px" fontWeight={"bold"}>
-              Calendar Listing
-            </Text>
-            <TextField id="eventDate" type="date" label="Event Date" {...register("eventDate", { required: true })} />
-            {errors.eventDate && <span className={styles.error}>This field is required</span>}
-            <TextField
-              className={styles.metadata}
-              id="title"
-              type="text"
-              label="Title"
-              {...register("title", { required: true })}
-            />
-            {errors.title && <span className={styles.error}>This field is required</span>}
-            <TextField
-              className={styles.metadata}
-              id="city"
-              type="text"
-              label="City"
-              {...register("city", { required: true })}
-            />
-            {errors.city && <span className={styles.error}>This field is required</span>}
-            <TextField
-              className={styles.metadata}
-              id="state"
-              type="text"
-              label="State"
-              {...register("state", { required: true })}
-            />
-            {errors.city && <span className={styles.error}>This field is required</span>}
-            <TextField
-              className={styles.metadata}
-              id="venue"
-              type="text"
-              label="Venue"
-              {...register("gallery", { required: true })}
-            />
-            {errors.venue && <span className={styles.error}>This field is required</span>}
-            <TextAreaField id="body" type="text" label="Listing Detail" {...register("body", { required: true })} />
-            {errors.body && <span className={styles.error}>This field is required</span>}
-            <Flex direction={"column"}>
-              <Text>Listing Image</Text>
-              <Flex>
-                {!image && (
-                  <FileUploader
-                    onSuccess={onSuccess}
-                    variation="drop"
-                    acceptedFileTypes={["image/*"]}
-                    accessLevel="protected"
-                  />
-                )}
+    <RequireAuth>
+      <Flex width={"100%"} alignItems={"center"} direction={"column"}>
+        <form className={styles.metadataForm} onSubmit={handleSubmit(onSubmit)}>
+          <Flex gap={"10px"} alignItems={"center"} direction={"column"}>
+            <Card width={"100%"} variation="outlined" paddingBottom={"30px"}>
+              <Text padding="20px 0px" fontWeight={"bold"}>
+                Calendar Listing
+              </Text>
+              <TextField id="eventDate" type="date" label="Event Date" {...register("eventDate", { required: true })} />
+              {errors.eventDate && <span className={styles.error}>This field is required</span>}
+              <TextField
+                className={styles.metadata}
+                id="title"
+                type="text"
+                label="Title"
+                {...register("title", { required: true })}
+              />
+              {errors.title && <span className={styles.error}>This field is required</span>}
+              <TextField
+                className={styles.metadata}
+                id="city"
+                type="text"
+                label="City"
+                {...register("city", { required: true })}
+              />
+              {errors.city && <span className={styles.error}>This field is required</span>}
+              <TextField
+                className={styles.metadata}
+                id="state"
+                type="text"
+                label="State"
+                {...register("state", { required: true })}
+              />
+              {errors.city && <span className={styles.error}>This field is required</span>}
+              <TextField
+                className={styles.metadata}
+                id="venue"
+                type="text"
+                label="Venue"
+                {...register("gallery", { required: true })}
+              />
+              {errors.venue && <span className={styles.error}>This field is required</span>}
+              <TextAreaField id="body" type="text" label="Listing Detail" {...register("body", { required: true })} />
+              {errors.body && <span className={styles.error}>This field is required</span>}
+              <Flex direction={"column"}>
+                <Text>Listing Image</Text>
+                <Flex>
+                  {!image && (
+                    <FileUploader
+                      onSuccess={onSuccess}
+                      variation="drop"
+                      acceptedFileTypes={["image/*"]}
+                      accessLevel="protected"
+                    />
+                  )}
 
-                {image && (
-                  <View className={styles.imageContainer} width={125} height={125}>
-                    <Image src={image} layout="fill" objectFit="contain" alt="calendar image" />
-                  </View>
-                )}
+                  {image && (
+                    <View className={styles.imageContainer} width={125} height={125}>
+                      <Image src={image} layout="fill" objectFit="contain" alt="calendar image" />
+                    </View>
+                  )}
+                </Flex>
               </Flex>
-            </Flex>
-          </Card>
-        </Flex>
-
-        <View className={styles.messageContainer}>
-          {
-            <Text
-              fontSize={{ base: "small", large: "medium" }}
-              width={{ base: "200px", large: "320px" }}
-              height={"50px"}
-              className={toastVisible ? styles.message : styles.hidden}
-            >
-              {` ${toastMessage}`}
-            </Text>
-          }
-          <Flex>
-            <Button
-              onClick={() => onCancel()}
-              className={styles.formButton}
-              variation="error"
-              type="reset"
-              value="cancel"
-            >
-              Cancel
-            </Button>
-            <Button className={styles.formButton} variation="primary" type="submit" value="save">
-              {isSubmitting ? <Loader /> : "Submit for Approval"}
-            </Button>
+            </Card>
           </Flex>
-        </View>
-      </form>
-    </Flex>
+
+          <View className={styles.messageContainer}>
+            {
+              <Text
+                fontSize={{ base: "small", large: "medium" }}
+                width={{ base: "200px", large: "320px" }}
+                height={"50px"}
+                className={toastVisible ? styles.message : styles.hidden}
+              >
+                {` ${toastMessage}`}
+              </Text>
+            }
+            <Flex>
+              <Button
+                onClick={() => onCancel()}
+                className={styles.formButton}
+                variation="error"
+                type="reset"
+                value="cancel"
+              >
+                Cancel
+              </Button>
+              <Button className={styles.formButton} variation="primary" type="submit" value="save">
+                {isSubmitting ? <Loader /> : "Submit for Approval"}
+              </Button>
+            </Flex>
+          </View>
+        </form>
+      </Flex>
+    </RequireAuth>
   );
 }
 
-export default withAuthenticator(CreateCalendarListing, { loginMechanisms: ["email"] });
+export default CreateCalendarListing;
