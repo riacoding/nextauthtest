@@ -18,6 +18,7 @@ import {
   FileUploader,
 } from "@aws-amplify/ui-react";
 import { RequireAuth } from "../../components/RequireAuth";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 import styles from "../../styles/form.module.css";
 
 const sendMessageMutation = /* GraphQL */ `
@@ -61,8 +62,9 @@ const createListingMutation = /* GraphQL */ `
   }
 `;
 
-function CreateCalendarListing({ user, signOut }) {
+function CreateCalendarListing() {
   const router = useRouter();
+  const { authStatus, cognitoUser, signOut } = useAuthRedirect();
   const [currentUser, setCurrentUser] = useState(null);
   const [isListingCreated, setIsListingCreated] = useState(null);
   const [toastVisible, setToastVisible] = useState(false);
@@ -94,7 +96,7 @@ function CreateCalendarListing({ user, signOut }) {
         const { data, errors } = await API.graphql({
           query: getUser,
           variables: {
-            sub: user.attributes.sub,
+            sub: cognitoUser.attributes.sub,
           },
           authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS,
         });
@@ -109,7 +111,7 @@ function CreateCalendarListing({ user, signOut }) {
     };
 
     getUserId();
-  }, [user]);
+  }, [cognitoUser]);
 
   async function sendMessage(message) {
     console.log("send message", message);
@@ -180,7 +182,7 @@ function CreateCalendarListing({ user, signOut }) {
         const request = {};
         request.subject = "Moderation Request";
         request.body = `Moderation Request from ${currentUser.firstname} ${currentUser.lastname} for Calendar Listing ${listingId}`;
-        request.senderEmail = user.attributes.email;
+        request.senderEmail = cognitoUser.attributes.email;
         request.recipients = ["@Admin"];
         request.isModeration = true;
         request.moderationType = "calendar";
