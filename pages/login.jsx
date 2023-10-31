@@ -12,6 +12,8 @@ import {
     View,
     Button,
     Loader,
+    Tabs,
+    TabItem
 } from "@aws-amplify/ui-react";
 import { Amplify, API, Auth, graphqlOperation } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
@@ -25,7 +27,8 @@ import styles from "../styles/Home.module.css";
 
 export default function Login() {
     const router = useRouter()
-    const [form, setForm] = useState("login")
+    const [formState, setFormState] = useState("login")
+    const [tabIndex, setTabIndex] = useState(0)
     const [shouldReset, setShouldReset] = useState(false)
     const [cognitoUser, setCognitoUser] = useState()
 
@@ -41,9 +44,7 @@ export default function Login() {
     async function signup(email) {
         const chance = new Chance()
         const password = chance.string({ length: 16 })
-        //const user = await Auth.signUp({username:email, password})
-
-
+        const user = await Auth.signUp({ username: email, password })
     }
 
     async function answerCustomChallenge(code) {
@@ -64,17 +65,19 @@ export default function Login() {
     }
 
     async function onSubmit(data) {
-        if (form === "login") {
+        if (formState === "login") {
             console.log("submit", data);
             loginWithEmail(data.email)
-            setForm("code")
-        } else if (form === "signup") {
+            setFormState("code")
+        } else if (formState === "signup") {
             console.log("submit", data);
             //signup
-
+            await signup(data.email)
+            setTabIndex(0)
+            loginWithEmail(data.email)
             //login
-            setForm("code")
-        } else if (form === "code") {
+            setFormState("code")
+        } else if (formState === "code") {
             const result = await answerCustomChallenge(data.code)
             if (result.attributes.sub) {
                 const session = await Auth.currentSession();
@@ -96,9 +99,11 @@ export default function Login() {
                 router.push(window.localStorage.getItem("redirectPath"))
             }
         } else {
-            setForm("login")
+            setFormState("login")
         }
     }
+
+
 
     return (
         <div className={styles.container}>
@@ -135,6 +140,21 @@ export default function Login() {
             }
         }, [shouldReset, reset])
 
+        function tabChange(index) {
+
+            if (index === "0") {
+                setTabIndex("0")
+                setFormState("login")
+            }
+
+            if (index === "1") {
+
+                setTabIndex("1")
+                setFormState("signup")
+            }
+
+        }
+
 
         return (
             <Flex width={"100%"} alignItems={"center"} direction={"column"}>
@@ -142,13 +162,22 @@ export default function Login() {
                     <Flex gap={"10px"} alignItems={"center"} direction={"column"}>
                         <Card width={"100%"} variation="outlined" paddingBottom={"30px"}>
                             <Flex width={"100%"} justifyContent={"center"}>
-                                <Text padding="20px 0px" fontSize={"xl"} fontWeight={"bold"}>
-                                    Login
-                                </Text>
+                                <Tabs currentIndex={tabIndex} onChange={(i) => tabChange(i)} >
+                                    <TabItem title="Login">
+                                        <Text padding="20px 0px" fontSize={"xl"} fontWeight={"bold"}>
+                                            Login
+                                        </Text>
+                                    </TabItem>
+                                    <TabItem title="Signup">
+                                        <Text padding="20px 0px" fontSize={"xl"} fontWeight={"bold"}>
+                                            Signup
+                                        </Text>
+                                    </TabItem>
+                                </Tabs>
                             </Flex>
 
                             {
-                                form === "login" && (
+                                formState === "login" && (
                                     <View>
                                         <TextField id="email" type="email" label="Email" {...register("email", { required: true })} />
                                         {errors.email && <span className={styles.error}>email is required</span>}
@@ -157,7 +186,7 @@ export default function Login() {
                             }
 
                             {
-                                form === "signup" && (
+                                formState === "signup" && (
                                     <View>
                                         <TextField id="email" type="email" label="Email" {...register("email", { required: true })} />
                                         {errors.email && <span className={styles.error}>email is required</span>}
@@ -166,13 +195,13 @@ export default function Login() {
                             }
 
                             {
-                                form === "code" && (
+                                formState === "code" && (
                                     <View>
                                         <TextField
                                             className={styles.metadata}
                                             id="code"
                                             type="text"
-                                            label="Code from email"
+                                            label="Enter code from email"
                                             {...register("code", { required: true })}
                                         />
                                         {errors.code && <span className={styles.error}>Code is required</span>}
@@ -182,7 +211,7 @@ export default function Login() {
 
                         </Card>
                         <Button className={styles.formButton} variation="primary" type="submit" value="save">
-                            {form === "login" ? "Login" : "Enter Code"}
+                            {formState === "login" ? "Login" : tabIndex === "1" ? "Signup" : "Submit Code"}
                         </Button>
                     </Flex>
                 </form>
