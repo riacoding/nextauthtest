@@ -64,6 +64,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "nextauthtest5e5f7abb5e5f7abbPostConfirmation": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "nextauthtest5e5f7abb5e5f7abbPreSignup": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

@@ -82,6 +82,15 @@
           "category": "function",
           "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse",
           "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation",
+          "triggerProvider": "Cognito"
         }
       ],
       "frontendAuthConfig": {
@@ -186,6 +195,11 @@
       "service": "Lambda"
     },
     "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "nextauthtest5e5f7abb5e5f7abbPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -295,6 +309,30 @@
         {
           "category": "function",
           "resourceName": "nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation"
         }
       ]
     },

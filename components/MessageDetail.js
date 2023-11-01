@@ -133,11 +133,13 @@ export default function MessageDetail({ message, isComposing, setIsComposing, us
 
   return (
     <Flex
+      id="messages"
       direction={"column"}
       padding={"20px"}
       backgroundColor={"whitesmoke"}
       height={"600px"}
       alignItems={"center"}
+      minWidth={"800px"}
       width={"100%"}
     >
       {isComposing && (
