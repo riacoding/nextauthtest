@@ -28,6 +28,11 @@ export type AmplifyDependentResourcesAttributes = {
       "usersGroupRole": "string"
     }
   },
+  "custom": {
+    "createUserQueue": {
+      "snsTopicArn": "string"
+    }
+  },
   "function": {
     "AggregateVotes": {
       "Arn": "string",
@@ -64,6 +69,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "nextauthtest5e5f7abb5e5f7abbPostAuthentication": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "nextauthtest5e5f7abb5e5f7abbPostConfirmation": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
@@ -79,6 +91,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Region": "string"
     },
     "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "userHandler": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

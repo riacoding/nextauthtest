@@ -1,0 +1,14 @@
+[
+  {
+    "Action": [
+      "sqs:ReceiveMessage",
+      "sqs:ChangeMessageVisibility",
+      "sqs:GetQueueUrl",
+      "sqs:DeleteMessage",
+      "sqs:GetQueueAttributes"
+    ],
+    "Resource": [
+      "arn:aws:sqs:us-west-1:897103703532:nextauthtest-userQueue-${env}"
+    ]
+  }
+]

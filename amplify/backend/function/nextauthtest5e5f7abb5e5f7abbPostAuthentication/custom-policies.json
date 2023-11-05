@@ -1,0 +1,10 @@
+[
+  {
+    "Action": [
+      "SNS:Publish"
+    ],
+    "Resource": [
+      "arn:aws:sns:us-west-1:897103703532:sns-topic-nextauthtest-User-dev-dev"
+    ]
+  }
+]

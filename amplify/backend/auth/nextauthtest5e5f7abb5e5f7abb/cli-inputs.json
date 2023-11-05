@@ -29,10 +29,13 @@
       "email"
     ],
     "userpoolClientReadAttributes": [
-      "email"
+      "email",
+      "family_name",
+      "given_name",
+      "phone_number"
     ],
     "userpoolClientLambdaRole": "nextau5e5f7abb_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "5e5f7abb",
     "resourceName": "nextauthtest5e5f7abb5e5f7abb",
     "authSelections": "identityPoolAndUserPool",
@@ -49,6 +52,9 @@
       ],
       "DefineAuthChallenge": [
         "boilerplate-define-challenge"
+      ],
+      "PostAuthentication": [
+        "custom"
       ],
       "PostConfirmation": [
         "add-to-group"
@@ -102,6 +108,15 @@
       },
       {
         "category": "function",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation",
+        "triggerProvider": "Cognito",
+        "attributes": [
+          "Arn",
+          "Name"
+        ]
+      },
+      {
+        "category": "function",
         "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
         "triggerProvider": "Cognito",
         "attributes": [
@@ -120,7 +135,7 @@
       },
       {
         "category": "function",
-        "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation",
+        "resourceName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication",
         "triggerProvider": "Cognito",
         "attributes": [
           "Arn",
@@ -135,6 +150,6 @@
     "permissions": [
       "{\n  \"policyName\": \"AddToGroupCognito\",\n  \"trigger\": \"PostConfirmation\",\n  \"effect\": \"Allow\",\n  \"actions\": [\n    \"cognito-idp:AdminAddUserToGroup\",\n    \"cognito-idp:GetGroup\",\n    \"cognito-idp:CreateGroup\"\n  ],\n  \"resource\": {\n    \"paramType\": \"!GetAtt\",\n    \"keys\": [\n      \"UserPool\",\n      \"Arn\"\n    ]\n  }\n}"
     ],
-    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CreateAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"DefineAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPostConfirmation\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPreSignup\"\n  },\n  {\n    \"triggerType\": \"VerifyAuthChallengeResponse\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse\"\n  }\n]"
+    "authTriggerConnections": "[\n  {\n    \"triggerType\": \"CreateAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbCreateAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"DefineAuthChallenge\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbDefineAuthChallenge\"\n  },\n  {\n    \"triggerType\": \"PostAuthentication\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPostAuthentication\"\n  },\n  {\n    \"triggerType\": \"PostConfirmation\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPostConfirmation\"\n  },\n  {\n    \"triggerType\": \"PreSignUp\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbPreSignup\"\n  },\n  {\n    \"triggerType\": \"VerifyAuthChallengeResponse\",\n    \"lambdaFunctionName\": \"nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse\"\n  }\n]"
   }
 }

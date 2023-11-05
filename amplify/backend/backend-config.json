@@ -71,6 +71,15 @@
             "Name"
           ],
           "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
           "resourceName": "nextauthtest5e5f7abb5e5f7abbPreSignup",
           "triggerProvider": "Cognito"
         },
@@ -89,7 +98,7 @@
             "Name"
           ],
           "category": "function",
-          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostConfirmation",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication",
           "triggerProvider": "Cognito"
         }
       ],
@@ -131,6 +140,25 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Cognito-UserPool-Groups"
+    }
+  },
+  "custom": {
+    "createUserQueue": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "Region",
+            "LambdaExecutionRole",
+            "LambdaExecutionRoleArn"
+          ],
+          "category": "function",
+          "resourceName": "userHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
     }
   },
   "function": {
@@ -199,6 +227,11 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
+    "nextauthtest5e5f7abb5e5f7abbPostAuthentication": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "nextauthtest5e5f7abb5e5f7abbPostConfirmation": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -211,6 +244,22 @@
     },
     "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse": {
       "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "userHandler": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "nextauthtest"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
@@ -312,6 +361,22 @@
         }
       ]
     },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostAuthentication_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication"
+        }
+      ]
+    },
+    "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostAuthentication_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication"
+        }
+      ]
+    },
     "AMPLIFY_function_nextauthtest5e5f7abb5e5f7abbPostConfirmation_GROUP": {
       "usedBy": [
         {
@@ -365,6 +430,22 @@
         {
           "category": "function",
           "resourceName": "nextauthtest5e5f7abb5e5f7abbVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_userHandler_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_userHandler_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "userHandler"
         }
       ]
     }

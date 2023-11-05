@@ -55,6 +55,14 @@
           "GROUP": "users",
           "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
           "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbPostConfirmation-456d303861424b646375-build.zip"
+        },
+        "userHandler": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/userHandler-77674351457458653364-build.zip"
+        },
+        "nextauthtest5e5f7abb5e5f7abbPostAuthentication": {
+          "deploymentBucketName": "amplify-nextauthtest-dev-125919-deployment",
+          "s3Key": "amplify-builds/nextauthtest5e5f7abb5e5f7abbPostAuthentication-752f4772415862416b49-build.zip"
         }
       },
       "storage": {
@@ -62,6 +70,9 @@
       },
       "analytics": {
         "nextauthtest": {}
+      },
+      "custom": {
+        "createUserQueue": {}
       }
     }
   }

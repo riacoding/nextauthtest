@@ -96,9 +96,15 @@ export const createUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -119,9 +125,15 @@ export const updateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -142,9 +154,15 @@ export const deleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -220,9 +238,11 @@ export const createCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -257,9 +277,11 @@ export const updateCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -294,9 +316,11 @@ export const deleteCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -445,6 +469,102 @@ export const deletePost = /* GraphQL */ `
       createdAt
       updatedAt
       blogPostsId
+      __typename
+    }
+  }
+`;
+export const createEntry = /* GraphQL */ `
+  mutation CreateEntry(
+    $input: CreateEntryInput!
+    $condition: ModelEntryConditionInput
+  ) {
+    createEntry(input: $input, condition: $condition) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateEntry = /* GraphQL */ `
+  mutation UpdateEntry(
+    $input: UpdateEntryInput!
+    $condition: ModelEntryConditionInput
+  ) {
+    updateEntry(input: $input, condition: $condition) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteEntry = /* GraphQL */ `
+  mutation DeleteEntry(
+    $input: DeleteEntryInput!
+    $condition: ModelEntryConditionInput
+  ) {
+    deleteEntry(input: $input, condition: $condition) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
       __typename
     }
   }

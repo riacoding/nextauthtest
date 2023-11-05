@@ -77,9 +77,15 @@ export const onCreateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -100,9 +106,15 @@ export const onUpdateUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -123,9 +135,15 @@ export const onDeleteUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -192,9 +210,11 @@ export const onCreateCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -229,9 +249,11 @@ export const onUpdateCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -266,9 +288,11 @@ export const onDeleteCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -399,6 +423,102 @@ export const onDeletePost = /* GraphQL */ `
       createdAt
       updatedAt
       blogPostsId
+      __typename
+    }
+  }
+`;
+export const onCreateEntry = /* GraphQL */ `
+  subscription OnCreateEntry(
+    $filter: ModelSubscriptionEntryFilterInput
+    $owner: String
+  ) {
+    onCreateEntry(filter: $filter, owner: $owner) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateEntry = /* GraphQL */ `
+  subscription OnUpdateEntry(
+    $filter: ModelSubscriptionEntryFilterInput
+    $owner: String
+  ) {
+    onUpdateEntry(filter: $filter, owner: $owner) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteEntry = /* GraphQL */ `
+  subscription OnDeleteEntry(
+    $filter: ModelSubscriptionEntryFilterInput
+    $owner: String
+  ) {
+    onDeleteEntry(filter: $filter, owner: $owner) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
       __typename
     }
   }

@@ -30,12 +30,15 @@ export default function Login() {
     const [formState, setFormState] = useState("login")
     const [tabIndex, setTabIndex] = useState(0)
     const [shouldReset, setShouldReset] = useState(false)
-    const [cognitoUser, setCognitoUser] = useState()
+    const [cognitoUser, setCognitoUser] = useState(null)
+    const [isSigningIn, setIsSigningIn] = useState(false)
 
     async function loginWithEmail(email) {
         try {
+
             const user = await Auth.signIn(email)
             setCognitoUser(user)
+
         } catch (err) {
             console.log(err);
         }
@@ -67,7 +70,7 @@ export default function Login() {
     async function onSubmit(data) {
         if (formState === "login") {
             console.log("submit", data);
-            loginWithEmail(data.email)
+            await loginWithEmail(data.email)
             setFormState("code")
         } else if (formState === "signup") {
             console.log("submit", data);
@@ -78,6 +81,7 @@ export default function Login() {
             //login
             setFormState("code")
         } else if (formState === "code") {
+            setIsSigningIn(true)
             const result = await answerCustomChallenge(data.code)
             if (result.attributes.sub) {
                 const session = await Auth.currentSession();
@@ -114,12 +118,12 @@ export default function Login() {
             </Head>
 
             <main className={styles.main}>
-                <LoginForm shouldReset={shouldReset} />
+                <LoginForm isSigningIn={isSigningIn} shouldReset={shouldReset} />
             </main>
         </div>
     )
 
-    function LoginForm({ shouldReset }) {
+    function LoginForm({ shouldReset, isSigningIn }) {
         const {
             register,
             handleSubmit,
@@ -210,8 +214,8 @@ export default function Login() {
                             }
 
                         </Card>
-                        <Button className={styles.formButton} variation="primary" type="submit" value="save">
-                            {formState === "login" ? "Login" : tabIndex === "1" ? "Signup" : "Submit Code"}
+                        <Button minHeight={"42px"} width={"250px"} className={styles.formButton} variation="primary" type="submit" value="save">
+                            {formState === "login" ? "login" : tabIndex === "1" ? "Signup" : isSigningIn ? <Loader /> : "Submit Code"}
                         </Button>
                     </Flex>
                 </form>

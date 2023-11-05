@@ -1,0 +1,11 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "api": {
+      "nextauthtest": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
+}

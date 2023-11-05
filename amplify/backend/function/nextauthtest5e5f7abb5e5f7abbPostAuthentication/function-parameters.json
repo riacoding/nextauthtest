@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "nextauthtest5e5f7abb5e5f7abb",
+  "functionName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication",
+  "resourceName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/repo/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PostAuthentication",
+  "triggerTemplate": "PostAuthentication.json.ejs",
+  "triggerEventPath": "PostAuthentication.event.json",
+  "roleName": "nextauthtest5e5f7abb5e5f7abbPostAuthentication",
+  "skipEdit": true
+}

@@ -54,9 +54,15 @@ export const getUser = /* GraphQL */ `
         nextToken
         __typename
       }
+      entries {
+        nextToken
+        __typename
+      }
+      legacy
+      migrated
+      owner
       createdAt
       updatedAt
-      owner
       __typename
     }
   }
@@ -75,9 +81,11 @@ export const listUsers = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       nextToken
@@ -107,9 +115,11 @@ export const usersByEmail = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       nextToken
@@ -139,9 +149,11 @@ export const usersBySub = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       nextToken
@@ -234,9 +246,11 @@ export const getCalendarListing = /* GraphQL */ `
         ssn
         email
         sub
+        legacy
+        migrated
+        owner
         createdAt
         updatedAt
-        owner
         __typename
       }
       title
@@ -401,6 +415,89 @@ export const listPosts = /* GraphQL */ `
         createdAt
         updatedAt
         blogPostsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getEntry = /* GraphQL */ `
+  query GetEntry($id: ID!) {
+    getEntry(id: $id) {
+      id
+      title
+      issue
+      region
+      userEntriesId
+      user {
+        id
+        firstname
+        lastname
+        ssn
+        email
+        sub
+        legacy
+        migrated
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listEntries = /* GraphQL */ `
+  query ListEntries(
+    $filter: ModelEntryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEntries(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        issue
+        region
+        userEntriesId
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const entriesByUser = /* GraphQL */ `
+  query EntriesByUser(
+    $userEntriesId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEntryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    entriesByUser(
+      userEntriesId: $userEntriesId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        issue
+        region
+        userEntriesId
+        owner
+        createdAt
+        updatedAt
         __typename
       }
       nextToken
